@@ -7,6 +7,8 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+import astropy.units as u
+from matplotlib.patches import Polygon
 
 def ra_molweid_to_degree(ra_molweid):
     return -ra_molweid if ra_molweid < 0 else 360 - ra_molweid
@@ -45,13 +47,31 @@ def download_sky_region(ra_min, ra_max, dec_min, dec_max, fov_step=5/60):
     return images
 
 def plot_sky_region(ra_min, ra_max, dec_min, dec_max):
-    fig, ax = plt.subplots()
-    rect = Rectangle((ra_min, dec_min), ra_max-ra_min, dec_max-dec_min, fill=False, edgecolor='red')
-    ax.add_patch(rect)
-    ax.set_xlim(ra_min, ra_max)
-    ax.set_ylim(dec_min, dec_max)
-    ax.set_xlabel('RA')
-    ax.set_ylabel('DEC')
+    # Convert the RA and DEC limits to radians for Mollweide projection
+    ra_min_rad, ra_max_rad = np.radians([ra_min, ra_max]) - np.pi
+    dec_min_rad, dec_max_rad = np.radians([dec_min, dec_max])
+
+    # Define the vertices of the rectangle in the Mollweide projection
+    vertices = [
+        (ra_min_rad, dec_min_rad), (ra_min_rad, dec_max_rad),
+        (ra_max_rad, dec_max_rad), (ra_max_rad, dec_min_rad),
+        (ra_min_rad, dec_min_rad)
+    ]
+
+    fig = plt.figure(figsize=(10, 5))
+    ax = fig.add_subplot(111, projection='mollweide')
+    ax.grid(True)
+
+    # Create a polygon patch and add it to the axis
+    sky_region = Polygon(vertices, fill=False, edgecolor='red', linewidth=2)
+    ax.add_patch(sky_region)
+
+    # Set labels for RA and DEC
+    ax.set_xlabel('Right Ascension')
+    ax.set_ylabel('Declination')
+    ax.set_xticklabels(['14h', '16h', '18h', '20h', '22h', '0h', '2h', '4h', '6h', '8h', '10h'])
+    ax.set_title('Sky Region')
+
     plt.show()
 
 def clear_astropy_cache():
@@ -62,7 +82,7 @@ def main():
     ra_min, ra_max, dec_min, dec_max = 75, 80, 0, 5
     images = download_sky_region(ra_min, ra_max, dec_min, dec_max)
     plot_sky_region(ra_min, ra_max, dec_min, dec_max)
-    
+
     clear_astropy_cache()
 
     # Additional processing can be added here

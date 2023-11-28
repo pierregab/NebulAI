@@ -1,29 +1,36 @@
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow import keras
+from tensorflow.keras import layers
 import keras_tuner as kt
 import cv2
 import os
 
-def preprocess_input(img):
-    img = cv2.resize(img, (512, 512))
-    img = img / 127.5 - 1
-    return img
+def preprocess_input():
+    data_augmentation = keras.Sequential([
+        layers.RandomFlip("horizontal"),
+        layers.RandomRotation(0.2),
+        layers.RandomZoom(0.2),
+        layers.RandomHeight(0.2),
+        layers.RandomWidth(0.2)
+    ])
+    normalization_layer = layers.Rescaling(1./127.5, offset=-1)
 
-def create_data_generators(base_dir, batch_size):
-    train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input,
-                                       rotation_range=20,
-                                       width_shift_range=0.2,
-                                       height_shift_range=0.2,
-                                       zoom_range=0.2)
-    val_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+    return data_augmentation, normalization_layer
 
-    train_generator = train_datagen.flow_from_directory(os.path.join(base_dir, 'train'),
-                                                        target_size=(512, 512),
-                                                        batch_size=batch_size)
-    validation_generator = val_datagen.flow_from_directory(os.path.join(base_dir, 'test'),
-                                                           target_size=(512, 512),
-                                                           batch_size=batch_size)
-    return train_generator, validation_generator
+def create_data_generators(base_dir, batch_size, img_size=(512, 512)):
+    train_ds = tf.keras.utils.image_dataset_from_directory(
+        os.path.join(base_dir, 'train'),
+        label_mode='categorical',
+        image_size=img_size,
+        batch_size=batch_size)
+
+    val_ds = tf.keras.utils.image_dataset_from_directory(
+        os.path.join(base_dir, 'test'),
+        label_mode='categorical',
+        image_size=img_size,
+        batch_size=batch_size)
+
+    return train_ds, val_ds
 
 def build_model(hp=None):
     base_model = tf.keras.applications.VGG16(input_shape=(512, 512, 3), include_top=False, weights='imagenet')
@@ -75,6 +82,10 @@ def hyperparameter_tuning(train_generator, validation_generator, max_trials=10, 
 
 def run_training(tune_hyperparams=False, base_dir='image_dataset', batch_size=8):
     train_generator, validation_generator = create_data_generators(base_dir, batch_size)
+    data_augmentation, normalization_layer = preprocess_input()
+
+    train_generator = train_generator.map(lambda x, y: (data_augmentation(x, training=True), y))
+    validation_generator = validation_generator.map(lambda x, y: (normalization_layer(x), y))
 
     if tune_hyperparams:
         best_hps = hyperparameter_tuning(train_generator, validation_generator)

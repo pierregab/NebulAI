@@ -6,6 +6,7 @@ import astropy.units as u
 from urllib.parse import urlencode
 import concurrent.futures
 from astropy.utils.data import clear_download_cache
+from tqdm import tqdm
 
 def generate_random_coordinates(num_positions, fov_range):
     """
@@ -39,7 +40,7 @@ def download_and_process_image(ra_deg, dec_deg, fov, image_size=512):
         'height': image_size
     }
     url = f'http://alasky.u-strasbg.fr/hips-image-services/hips2fits?{urlencode(query_params)}'
-    hdul = fits.open(url)
+    hdul = fits.open(url, cache=False, show_progress=False)  # Added arguments to suppress messages
     image = hdul[0].data
     return (image - np.min(image)) / (np.max(image) - np.min(image))
 
@@ -55,8 +56,11 @@ def download_negative_samples(num_samples=200, fov_range=np.arange(0.7, 20, 0.1)
     images = []
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
+        # Create a list to hold the future results
         futures = [executor.submit(download_and_process_image, ra[i], dec[i], fov_choices[i]) for i in range(num_samples)]
-        for future in concurrent.futures.as_completed(futures):
+        
+        # Use tqdm to create a progress bar for the as_completed iterator
+        for future in tqdm(concurrent.futures.as_completed(futures), total=num_samples):
             images.append(future.result())
 
     return np.array(images)

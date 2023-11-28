@@ -8,6 +8,7 @@ import astropy.units as u
 from urllib.parse import urlencode
 from concurrent.futures import ThreadPoolExecutor
 from astropy.utils.data import clear_download_cache
+from tqdm import tqdm
 
 
 def load_and_preprocess_images_parallel(csv_file_path, image_size=512, fov_threshold=0.7/60, max_workers=5):
@@ -21,8 +22,6 @@ def load_and_preprocess_images_parallel(csv_file_path, image_size=512, fov_thres
     :return: Numpy array of preprocessed images.
 
     """
-    # Clear the Astropy cache
-    clear_download_cache()
     tasks = []
     with open(csv_file_path, mode='r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -36,10 +35,13 @@ def load_and_preprocess_images_parallel(csv_file_path, image_size=512, fov_thres
                 url = construct_hips2fits_url(ra_deg, dec_deg, fov, image_size)
                 tasks.append(url)
 
+    processed_images = []
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        results = list(executor.map(download_and_normalize_image, tasks))
+        # Wrap the executor.map call with tqdm for a progress bar
+        for result in tqdm(executor.map(download_and_normalize_image, tasks), total=len(tasks)):
+            processed_images.append(result)
 
-    return np.array(results)
+    return np.array(processed_images)
 
 def construct_hips2fits_url(ra, dec, fov, image_size):
     """
@@ -68,7 +70,7 @@ def download_and_normalize_image(url):
     :param url: URL of the image to download.
     :return: Normalized image array.
     """
-    hdul = fits.open(url)
+    hdul = fits.open(url, cache=False, show_progress=False)  # Added arguments to suppress messages
     image = hdul[0].data
     return (image - np.min(image)) / (np.max(image) - np.min(image))
 
@@ -93,7 +95,13 @@ def display_images(images, num_images=35, individual_image_index=16):
     ax2.set_title(f'Object {individual_image_index + 1}')
     plt.show()
 
+def clear_astropy_cache():
+    """
+    Clear the download cache used by Astropy.
+    """
+    clear_download_cache()
+
 if __name__ == '__main__':
     images = load_and_preprocess_images_parallel('output33.csv')
     display_images(images)
-    clear_download_cache()
+    clear_astropy_cache()

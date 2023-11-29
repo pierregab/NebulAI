@@ -1,6 +1,23 @@
 import numpy as np
 from PIL import Image
 import os
+import shutil
+
+def clear_directory(directory):
+    """
+    Clear all files and subdirectories in the specified directory.
+
+    :param directory: The directory to clear.
+    """
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f'Failed to delete {file_path}. Reason: {e}')
 
 def create_directories(base_dir, sub_dirs):
     """
@@ -11,7 +28,9 @@ def create_directories(base_dir, sub_dirs):
     """
     os.makedirs(base_dir, exist_ok=True)
     for sub_dir in sub_dirs:
-        os.makedirs(os.path.join(base_dir, sub_dir), exist_ok=True)
+        sub_dir_path = os.path.join(base_dir, sub_dir)
+        clear_directory(sub_dir_path)  # Clear the directory
+        os.makedirs(sub_dir_path, exist_ok=True)
 
 def split_dataset(images, not_images, train_ratio=0.8):
     """

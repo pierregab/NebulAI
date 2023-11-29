@@ -20,7 +20,6 @@ def load_and_preprocess_images_parallel(csv_file_path, image_size=512, fov_thres
     :param fov_threshold: Field of view threshold in degrees.
     :param max_workers: Maximum number of threads for parallel downloading.
     :return: Numpy array of preprocessed images.
-
     """
     tasks = []
     with open(csv_file_path, mode='r') as csv_file:
@@ -28,7 +27,20 @@ def load_and_preprocess_images_parallel(csv_file_path, image_size=512, fov_thres
         next(csv_reader)  # Skip the header row
         for row in csv_reader:
             ra, dec, fov_str = row[2], row[3], row[4]
-            fov = float(re.match(r'(\d+(\.\d+)?)', fov_str).group(0))/60.0
+
+            # Exception handling for cases where re.match returns None
+            try:
+                fov_match = re.match(r'(\d+(\.\d+)?)', fov_str)
+                if fov_match:
+                    fov = float(fov_match.group(0)) / 60.0
+                    if fov > fov_threshold:
+                        ra_deg, dec_deg = Angle(ra, unit=u.hourangle).degree, Angle(dec, unit=u.deg).degree
+                        url = construct_hips2fits_url(ra_deg, dec_deg, fov, image_size)
+                        tasks.append(url)
+                else:
+                    print(f"Skipping row with invalid FOV format: {fov_str}")
+            except Exception as e:
+                print(f"Error processing row: {row}. Error: {e}")
 
             if fov > fov_threshold:
                 ra_deg, dec_deg = Angle(ra, unit=u.hourangle).degree, Angle(dec, unit=u.deg).degree
@@ -102,6 +114,6 @@ def clear_astropy_cache():
     clear_download_cache()
 
 if __name__ == '__main__':
-    images = load_and_preprocess_images_parallel('output33.csv')
+    images = load_and_preprocess_images_parallel('StDr.csv')
     display_images(images)
     clear_astropy_cache()

@@ -53,8 +53,8 @@ Information about the project's license.
 
 ## Contact
 
-Your Name - your@email.com
-Project Link: [https://github.com/yourusername/repo](https://github.com/yourusername/repo)
+Bibal Sobeaux Piere Gabriel - pg.bibal@gmail.com
+Project Link: [https://github.com/pierregab/Nebulai](https://github.com/pierregab/NebulAI)  
 
 ## Acknowledgements
 

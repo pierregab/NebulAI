@@ -13,4 +13,4 @@ nidr.clear_astropy_cache()
 
 de.export_dataset(images, not_images)
 
-history = mt.run_training(tune_hyperparams=True)
+history = mt.run_training(tune_hyperparams=False)

@@ -6,24 +6,6 @@ Detecting planetary nebula using AI
 
 ## Getting Started
 
-### Prerequisites
-
-List what software and libraries are needed to run this project, and how to install them.
-
-For example:
-
-- Python 3.8 or higher
-- TensorFlow 2.4.0 or higher
-- Keras 2.4.3 or higher
-- Keras Tuner 1.0.2 or higher
-- Astropy 4.2 or higher
-- OpenCV 4.5.1 or higher
-- Pandas 1.2.4 or higher
-- Numpy 1.19.5 or higher
-- Matplotlib 3.3.4 or higher
-- Scipy 1.6.2 or higher
-- BeautifulSoup 4.9.3 or higher
-
 ### Installation
 
 Provide step by step examples of how to set up the development environment.

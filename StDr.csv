@@ -1,0 +1,171 @@
+Name,Gal. Coord.,RA,DEC,Size,Statut
+StDr 1,PN-G 185.1-00.9,05:53:50.86,+24:02:27.11,4.8 arc min,True PN
+StDr 2,PN-G 093.4-03.2,21:40:22.13,+48:21:52.64,0.6 arc min,Likely PN
+StDr 3,PN-G 097.7+03.4,21:31:59.35,+56:13:15.52,2 x 1 arc min,New candidate
+StDr 4,PN-G 098.4+02.2,21:41:30.82,+55:47:52.78,3 x 2.3 arc min,Object of unknown nature
+StDr 5,PN-G 071.1-04.7,20:28:54.25,+30:44:07.00,1.4 arc min,New candidate
+StDr 6,PN-G 074.7+02.9,20:07:58.58,+38:02:10.51,0.1 arc min,True PN
+StDr 7,PN-G 063.1+00.2,19:50:11.26,+26:43:32.09,0.3 arc min,Possible PN
+StDr 8,PN-G 176.1+02.1,05:44:33.78,+33:21:37.29,0.7 arc min,Possible PN
+StDr 9,PN-G 306.9+03.7,13:22:24.99,-58:52:01.03,4.4 x 3.3 arc min,New candidate
+StDr 10,PN-G 303.7+03.4,12:58:00.36,-59:27:07.38,2 arc min,New candidate
+StDr 11,PN-G 069.4-03.8,20:20:50.30,+29:49:51.10,1.4 arc min,True PN
+StDr 12,PN-G 104.2+04.8,22:03:30.65,+61:29:43.39,0.8 arc min,True PN
+StDr 13,PN-G 204.4-00.4,06:34:22.65,+07:22:20.24,7.5 arc min,True PN
+StDr 14,PN-G 047.3+01.2,19:13:45.30,+13:22:09.99,1 arc min,Likely PN
+StDr 15,PN-G 095.8+04.8,21:15:06.92,+55:55:52.60,5 x 3.8 arc min,New candidate
+StDr 16,PN-G 039.1-04.5,19:18:50.58,+03:27:20.62,2.4 arc min,Possible PN
+StDr 17,PN-G 091.0-06.3,21:42:15.52,+44:28:04.33,15 x 13 arc min,True PN
+StDr 18*,PN-G 161.1+04.4,05:11:33.10,+47:04:52.34,0.7 arc min,Possible PN
+StDr 19*,PN-G 195.6-02.3,06:10:36.21,+14:10:39.14,0.2 x 0.1 arc min,Herbig-Haro object
+StDr 20*,PN-G 233.0+03.5,07:42:18.85,-16:08:41.14,6 arc min,Likely PN
+StDr 21*,PN-G 282.4-00.2,10:12:51.49,-56:42:25.62,0.1 arc min,New candidate
+StDr 22*,PN-G 297.4+05.5,12:11:06.97,-56:50:46.17,0.9 arc min,New candidate
+StDr 23*,PN-G 307.1-01.1,13:29:26.42,-63:40:36.83,0.1 arc min,True PN
+StDr 24*,PN-G 052.4+04.9,19:09:28.66,+19:35:14.16,0.6 arc min,True PN
+StDr 25*,PN-G 057.4+01.2,19:33:49.94,+22:15:05.56,0.4 arc min,True PN
+StDr 26*,PN-G 054.3-03.8,19:46:10.90,+17:06:09.11,0.2 arc min,True PN
+StDr 27*,PN-G 079.1-02.1,20:42:07.58,+38:38:08.78,3 arc min,Possible PN
+StDr 28*,PN-G 054.4+03.9,19:17:25.11,+20:52:31.20,2 arc min,True PN
+StDr 29*,PN-G 065.4+20.2,18:29:02.10,+37:20:05.35,5 arc min,Likely PN
+StDr 30*,PN-G 056.6-00.8,19:39:47.96,+20:34:10.05,1.3 arc min,True PN
+StDr 31*,PN-G 015.9+01.6,18:13:54.93,-14:17:06.93,11 x 4.6 arc min,True PN
+StDr 32*,PN-G 200.6-00.7,06:25:53.99,+10:33:08.81,6.6 arc min,New candidate
+StDr 33*,PN-G 201.6+03.9,06:44:52.15,+11:49:08.30,2.1 x 0.6 arc min,New candidate
+StDr 34*,PN-G 047.1+02.0,19:10:23.97,+13:32:21.49,0.6 arc min,True PN
+StDr 35*,PN-G 125.0-07.9,01:06:12.41,+54:54:11.41,16 x 10 arc min,New candidate
+StDr 36*,PN-G 140.2+03.7,03:24:22.82,+61:20:40.10,5.2 arc min,New candidate
+StDr 37*,PN-G 177.2-00.2,05:37:44.06,+31:09:17.50,1.8 arc min,New candidate
+StDr 38*,PN-G 226.6-10.6,06:37:32.39,-16:58:30.80,1.7 x 0.8 arc min,New candidate
+StDr 39*,PN-G 223.5-03.1,06:59:32.57,-10:52:14.30,9 arc min,New candidate
+StDr 40*,PN-G 241.2+01.0,07:50:31.08,-24:26:38.54,5.5 x 3.0 arc min,New candidate
+StDr 41*,PN-G 335.0+04.7,16:07:46.64,-45:33:11.20,4 arc min,New candidate
+StDr 42*,PN-G 064.8-03.8,20:09:27.67,+25:59:38.30,1.4 arc min,True PN
+StDr 43*,PN-G 101.4-01.9,22:16:18.23,+54:18:42.10,7 arc min,Possible PN
+StDr 44*,PN-G 220.9-00.8,07:03:06.26,-07:31:45.40,21 x 13 arc min,New candidate
+StDr 45*,PN-G 049.8+02.0,19:15:34.52,+15:56:09.00,2.6 arc min,Likely PN
+StDr 46*,PN-G 133.2-00.9,02:15:34.62,+60:11:00.90,1.1 arc min,True PN
+StDr 47*,PN-G 253.7+19.4,09:27:31.46,-23:22:34.40,4.5 arc min,Likely PN
+StDr 48*,PN-G 247.0+01.0,08:04:10.74,-29:21:57.50,3 arc min,New candidate
+StDr 49*,PN-G 025.6-08.3,19:08:19.59,-10:18:17.76,9 arc min,New candidate
+StDr 50*,PN-G 324.8+00.8,15:33:28.80,-54:56:20.00,8.5 x 6.0 arc min,New candidate
+StDr 51*,PN-G 014.1-00.7,18:19:11.65,-16:59:23.90,0.7 arc min,Likely PN
+StDr 52*,PN-G 012.4+02.5,18:03:25.73,-16:53:05.23,2.4 arc min,New candidate
+StDr 53*,PN-G 105.4-03.3,22:44:54.68,+55:09:25.60,0.3 arc min,Likely PN
+StDr 54*,PN-G 075.7-14.4,21:16:36.39,+28:10:19.52,16 arc min,New candidate
+StDr 55*,PN-G 127.4+01.4,01:32:38.77,+63:59:30.39,5 arc min,New candidate
+StDr 56*,PN-G 141.8-29.9,02:07:17.41,+30:05:11.90,44 x 36 arc min,New candidate
+StDr 57*,PN-G 157.0-03.6,04:20:43.81,+44:56:28.17,1.5 arc min,Possible PN
+StDr 58*,PN-G 195.5-03.0,06:07:59.22,+14:00:04.00,2 arc min,New candidate
+StDr 59*,PN-G 196.9-01.5,06:16:07.92,+13:29:16.75,73.8 arc min,New candidate
+StDr 60*,PN-G 040.7+03.8,18:51:55.48,+08:40:13.09,1.0 x 0.9 arc min,New candidate
+StDr 61*,PN-G 134.3+02.5,02:35:23.84,+63:03:02.35,13 arc min,Possible PN
+StDr 62*,PN-G 217.7+00.0,07:00:24.53,-04:13:15.30,0.1 arc min,New candidate
+StDr 63*,PN-G 227.2+01.4,07:23:17.07,-11:59:15.06,1.56 arc min,New candidate
+StDr 64*,PN-G 231.2-00.1,07:25:25.42,-16:18:39.83,0.83 arc min,New candidate
+StDr 65*,PN-G 225.8+04.2,07:30:39.36,-09:25:22.62,3.3 arc min,New candidate
+StDr 66*,PN-G 239.6-01.0,07:39:12.81,-24:05:49.48,1.49 arc min,New candidate
+StDr 67*,PN-G 242.7-00.1,07:49:19.94,-26:21:22.50,8 arc min,New candidate
+StDr 68*,PN-G 277.7-04.7,09:25:30.34,-57:11:43.60,2 arc min,New candidate
+StDr 69*,PN-G 307.9-03.4,13:40:34.42,-65:47:46.00,1.65 arc min,New candidate
+StDr 70*,PN-G 313.7-02.4,14:29:32.37,-63:15:57.18,1.33 arc min,New candidate
+StDr 71*,PN-G 341.5+02.1,16:43:23.33,-42:39:22.56,0.1 arc min,New candidate
+StDr 72*,PN-G 347.3-02.4,17:22:13.64,-40:54:42.54,0.1 arc min,New candidate
+StDr 73*,PN-G 357.7+04.5,17:22:32.28,-28:22:12.00,0.16 arc min,Possible PN
+StDr 74*,PN-G 355.6+01.7,17:28:00.21,-31:43:36.00,0.1 arc min,New candidate
+StDr 75*,PN-G 357.9+00.8,17:37:16.15,-30:14:10.70,0.1 arc min,Likely PN
+StDr 76*,PN-G 001.7+02.0,17:41:52.43,-26:19:12.70,0.1 arc min,New candidate
+StDr 77*,PN-G 001.2+01.6,17:42:10.95,-27:01:20.80,0.1 arc min,Possible PN
+StDr 78*,PN-G 002.8+01.0,17:48:08.57,-25:56:11.70,0.1 arc min,Possible PN
+StDr 79*,PN-G 003.4+01.0,17:49:40.67,-25:26:21.70,0.1 arc min,Likely PN
+StDr 80*,PN-G 002.6-04.2,18:08:32.66,-28:49:49.87,0.1 arc min,New candidate
+StDr 81*,PN-G 061.8+20.9,18:20:13.82,+34:21:08.70,24 arc min,New candidate
+StDr 82*,PN-G 028.2+06.0,18:21:14.92,-01:23:04.10,0.7 arc min,New candidate
+StDr 83*,PN-G 045.6+04.0,19:00:10.02,+13:07:05.90,0.43 arc min,New candidate
+StDr 84*,PN-G 044.0-02.3,19:20:11.50,+08:45:58.40,0.38 arc min,New candidate
+StDr 85*,PN-G 054.6+00.7,19:29:50.33,+19:34:20.42,1.2 arc min,Possible PN
+StDr 86*,PN-G 061.2+04.0,19:30:58.09,+26:58:43.63,1 arc min,Possible PN
+StDr 87*,PN-G 038.1-08.5,19:31:09.65,+00:41:14.40,0.33 arc min,New candidate
+StDr 88*,PN-G 230.8+04.7,07:42:21.45,-13:37:40.00,14 arc min,Possible PN
+StDr 89*,PN-G 058.4+00.1,19:40:05.89,+22:35:14.60,3 arc min,New candidate
+StDr 90*,PN-G 057.9-00.6,19:41:39.93,+21:45:58.36,2.5 arc min,New candidate
+StDr 91*,PN-G 066.7+02.4,19:49:39.11,+30:58:18.47,1.1 arc min,New candidate
+StDr 92*,PN-G 068.0+00.7,19:59:39.84,+31:14:06.91,1.82 arc min,True PN
+StDr 93*,PN-G 062.1-03.7,20:02:51.14,+23:48:09.72,0.83 arc min,New candidate
+StDr 94*,PN-G 093.2+00.8,21:22:16.87,+51:13:13.50,2.2 arc min,New candidate
+StDr 95*,PN-G 093.1-00.3,21:26:59.81,+50:18:57.30,1.1 arc min,New candidate
+StDr 96*,PN-G 103.9-03.7,22:37:00.25,+54:02:50.68,1 arc min,Likely PN
+StDr 97*,PN-G 109.5-04.3,23:14:18.82,+55:59:33.90,1.08 arc min,Possible PN
+StDr 98*,PN-G 110.0-04.6,23:17:57.63,+55:50:27.03,19.4 arc min,New candidate
+StDr 99*,PN-G 114.0+04.1,23:24:11.06,+65:30:52.40,17 arc min,New candidate
+StDr 100*,PN-G 049.7-04.9,19:40:38.71,+12:31:20.11,1 arc min,New candidate
+StDr 101*,PN-G 038.0-02.5,19:10:03.40,+03:22:24.06,3.75 arc min,True PN
+StDr 102*,PN-G 006.0-02.2,18:08:03.66,-24:50:59.09,0.1 arc min,True PN
+StDr 103*,PN-G 071.1+02.3,20:00:38.97,+34:39:23.04,10 arc min,New candidate
+StDr 104*,PN-G 156.7-07.0,04:06:05.26,+42:41:20.37,12 arc min,New candidate
+StDr 105*,PN-G 307.5+00.4,13:30:42.87,-62:01:57.29,0.1 arc min,New candidate
+StDr 106*,PN-G 333.5+01.0,16:16:28.65,-49:11:33.40,2 arc min,New candidate
+StDr 107*,PN-G 001.4+12.6,17:02:40.86,-20:43:04.20,0.1 arc min,New candidate
+StDr 108*,PN-G 354.2-00.3,17:32:28.97,-33:59:03.30,0.1 arc min,New candidate
+StDr 109*,PN-G 072.8+03.4,20:00:46.99,+36:42:10.72,8 arc min,Emission line star
+StDr 110*,PN-G 016.3+04.8,18:02:56.78,-12:24:53.20,0.1 arc min,New candidate
+StDr 111*,PN-G 007.6-03.1,18:14:32.70,-23:52:45.60,0.1 arc min,New candidate
+StDr 112*,PN-G 011.9-04.2,18:27:44.31,-20:34:08.70,0.1 arc min,New candidate
+StDr 113*,PN-G 025.3+02.2,18:29:27.90,-05:39:42.50,0.1 arc min,New candidate
+StDr 114*,PN-G 033.4+05.7,18:32:04.23,+03:04:02.50,0.1 arc min,New candidate
+StDr 115*,PN-G 016.3-04.6,18:37:44.48,-16:51:05.80,0.1 arc min,New candidate
+StDr 116*,PN-G 019.7-03.2,18:38:42.85,-13:10:45.40,0.1 arc min,New candidate
+StDr 117*,PN-G 024.1-02.0,18:42:53.58,-08:43:22.20,0.1 arc min,New candidate
+StDr 118*,PN-G 030.6-01.5,18:52:48.44,-02:46:18.49,0.1 arc min,New candidate
+StDr 119*,PN-G 067.4+15.7,18:53:36.55,+37:29:14.62,10 arc min,New candidate
+StDr 120*,PN-G 067.9+14.6,18:59:25.79,+37:30:26.33,10 arc min,New candidate
+StDr 121*,PN-G 071.5+04.2,19:53:47.36,+36:02:17.73,1.5 arc min,New candidate
+StDr 122*,PN-G 057.0-06.5,20:01:25.18,+18:01:59.70,15 arc min,New candidate
+StDr 123*,PN-G 064.2-02.5,20:03:24.26,+26:13:42.00,6 arc min,New candidate
+StDr 124*,PN-G 092.1-19.4,22:27:52.34,+34:39:21.67,33 arc min,New candidate
+StDr 125*,PN-G 164.1+03.6,05:17:15.49,+44:11:20.99,6.2 arc min,New candidate
+StDr 126*,PN-G 098.6+06.4,21:21:04.23,+59:01:31.25,3 arc min,New candidate
+StDr 127*,PN-G 298.2+18.2,12:26:32.07,-44:21:11.61,0.7 arc min,Likely PN
+StDr 128*,PN-G 192.1-07.3,05:45:18.52,+14:45:44.24,3.5 arc min,New candidate
+StDr 129*,PN-G 248.9+13.7,08:55:30.36,-23:34:43.70,3 arc min,New candidate
+StDr 130*,PN-G 228.0+06.8,07:44:11.83,-10:08:41.32,13 arc min,New candidate
+StDr 131*,PN-G 257.4+19.5,09:38:16.03,-25:46:16.27,25 arc min,New candidate
+StDr 132*,PN-G 067.0+07.0,19:31:26.90,+33:27:23.59,4 arc min,New candidate
+StDr 133*,PN-G 086.6-04.6,21:17:40.87,+42:42:35.82,2.8 arc min,New candidate
+StDr 134*,PN-G 355.0+04.3,17:16:13.41,-30:39:04.50,2.6 arc min,New candidate
+StDr 135*,PN-G 015.5-07.8,18:48:12.84,-19:00:52.86,4 arc min,New candidate
+StDr 136*,PN-G 354.0-08.8,18:08:41.01,-38:29:36.90,2 arc min,New candidate
+StDr 137*,PN-G 209.4+09.4,07:18:57.80,+07:22:23.20,6.3 arc min,Likely PN
+StDr 138*,PN-G 152.0-09.5,03:37:55.76,+43:44:15.71,9.5 x 12 arc min,Likely PN
+StDr 139*,PN-G 082.3+07.2,20:10:09.92,+46:43:18.98,2.7 x 2.4 arc min,True PN
+StDr 140*,PN-G 203.8+18.5,07:43:20.32,+16:07:52.90,6.9 arc min,Likely PN
+StDr 141*,PN-G 115.9-13.5,00:10:21.67,+48:47:11.91,4.2 x 2.7 arc min,True PN
+StDr 142*,PN-G 281.2+20.7,11:07:38.24,-37:42:13.42,13 arc min,New candidate
+StDr 143*,PN-G 013.0-39.1,20:56:03.57,-31:29:37.93,53 arc min,New candidate
+StDr 144*,PN-G 179.2-01.6,05:37:24.75,+28:42:39.69,16 arc min,New candidate
+StDr 145*,PN-G 321.9-04.1,15:37:58.37,-60:46:34.78,2.3 arc min,New candidate
+StDr 146*,PN-G 089.8+02.9,20:58:19.21,+50:12:07.19,3 arc min,New candidate
+StDr 147*,PN-G 358.6+09.0,17:08:09.47,-25:02:41.88,50.5 arc min,New candidate
+StDr 148*,PN-G 055.7-04.2,19:50:43.10,+18:06:42.11,0.9 arc min,New candidate
+StDr 149*,PN-G 064.7+00.9,19:50:46.66,+28:26:10.77,2.2 arc min,New candidate
+StDr 150*,PN-G 063.8+00.4,19:50:58.49,+27:27:44.52,2 arc min,New candidate
+StDr 151*,PN-G 304.6+24.1,12:59:39.52,-38:42:34.20,54 arc min,New candidate
+StDr 152*,PN-G 306.2+25.8,13:06:24.85,-36:56:11.58,10 arc min,New candidate
+StDr 153*,PN-G 014.6+00.7,18:14:26.86,-15:53:28.53,2.5 arc min,New candidate
+StDr 154*,PN-G 196.7-02.7,06:11:28.30,+13:05:13.43,2.2 arc min,New candidate
+StDr 155*,PN-G 203.1-00.3,06:32:24.58,+08:32:11.46,13.5 arc min,New candidate
+StDr 156*,PN-G 012.0+00.0,18:11:40.16,-18:30:11.61,10 arc min,New candidate
+StDr 157*,PN-G 243.6-04.4,07:34:24.58,-29:12:48.78,4 arc min,New candidate
+StDr 158*,PN-G 018.0+03.1,18:12:22.14,-11:40:07.12,13.5 arc min,New candidate
+StDr 159*,PN-G 086.4+07.6,20:21:41.34,+50:18:30.51,1.8 arc min,True PN
+StDr 160*,PN-G 038.3-02.7,19:11:07.75,+03:32:59.27,0.4 arc min,New candidate
+StDr 161*,PN-G 088.1+06.7,20:32:30.34,+51:11:34.44,10 x 5 arc min,Ionised ISM
+StDr 162*,PN-G 162.7+03.2,05:11:01.97,+45:02:24.63,5.7 arc min,Possible PN
+StDr 163*,PN-G 184.4+05.4,06:17:16.19,+27:46:36.91,4 arc min,Likely PN
+StDr 164*,PN-G 063.2-02.6,20:01:13.70,+25:19:34.93,3.1 arc min,Likely PN
+StDr 165*,PN-G 069.3+04.7,19:46:20.63,+34:23:38.44,0.8 arc min,Likely PN
+StDr 166*,PN-G 088.6+07.2,20:31:54.30,+51:54:08.66,0.3 arc min,True PN
+StDr 167*,PN-G 323.3-06.9,16:01:31.96,-61:59:57.81,1.2 arc min,True PN
+StDr 168*,PN-G 211.8+04.7,07:06:15.55,+03:06:18.76,4 x 3.4 arc min,New candidate
+StDr 169*,PN-G 231.4-04.4,07:09:30.30,-18:31:44.63,0.5 x 0.4 arc min,New candidate
+StDr 170*,PN-G 336.7+01.2,16:29:19.11,-46:48:31.80,0.1 arc min,New candidate

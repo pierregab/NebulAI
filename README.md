@@ -10,8 +10,6 @@ Detecting planetary nebula using AI
 
 Provide step by step examples of how to set up the development environment.
 
-For example:
-
 1. Clone the repository
 ```sh
 git clone https://github.com/pierregab/NebulAI.git
@@ -26,10 +24,6 @@ pip install -r requirements.txt
 ```
 
 ### Usage
-
-Explain how to run the automated tests for this system.
-
-For example:
 
 To train the model, run the following command in the `Training` directory:
 

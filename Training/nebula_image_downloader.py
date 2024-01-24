@@ -42,11 +42,6 @@ def load_and_preprocess_images_parallel(csv_file_path, image_size=512, fov_thres
             except Exception as e:
                 print(f"Error processing row: {row}. Error: {e}")
 
-            if fov > fov_threshold:
-                ra_deg, dec_deg = Angle(ra, unit=u.hourangle).degree, Angle(dec, unit=u.deg).degree
-                url = construct_hips2fits_url(ra_deg, dec_deg, fov, image_size)
-                tasks.append(url)
-
     processed_images = []
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Wrap the executor.map call with tqdm for a progress bar

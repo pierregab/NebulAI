@@ -33,7 +33,7 @@ def load_and_preprocess_images_parallel(csv_file_path, image_size=512, fov_thres
                 fov_match = re.match(r'(\d+(\.\d+)?)', fov_str)
                 if fov_match:
                     fov = float(fov_match.group(0)) / 60.0
-                    if fov > fov_threshold:
+                    if fov >= fov_threshold:
                         ra_deg, dec_deg = Angle(ra, unit=u.hourangle).degree, Angle(dec, unit=u.deg).degree
                         url = construct_hips2fits_url(ra_deg, dec_deg, fov, image_size)
                         tasks.append(url)

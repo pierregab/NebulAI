@@ -11,10 +11,10 @@ def preprocess_input():
         layers.RandomRotation(0.2),
         layers.RandomZoom(0.2),
         layers.RandomHeight(0.2),
-        layers.RandomWidth(0.2)
+        layers.RandomWidth(0.2),
+        layers.Rescaling(1./127.5, offset=-1)
     ])
     normalization_layer = layers.Rescaling(1./127.5, offset=-1)
-
     return data_augmentation, normalization_layer
 
 def create_data_generators(base_dir, batch_size, img_size=(512, 512)):
@@ -86,7 +86,7 @@ def run_training(tune_hyperparams=False, base_dir='image_dataset', batch_size=8)
 
     train_generator = train_generator.map(lambda x, y: (data_augmentation(x, training=True), y))
     validation_generator = validation_generator.map(lambda x, y: (normalization_layer(x), y))
-
+    print('validation_generator', validation_generator)
     if tune_hyperparams:
         best_hps = hyperparameter_tuning(train_generator, validation_generator)
         model = build_model(best_hps)

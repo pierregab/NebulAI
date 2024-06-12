@@ -35,6 +35,7 @@ class SwinTransformerBlock(nn.Module):
         )
 
     def forward(self, x):
+        print(f'SwinTransformerBlock input: {x.shape}')
         shortcut = x
         x = self.norm1(x)
         
@@ -65,6 +66,7 @@ class SwinTransformerBlock(nn.Module):
         x = self.norm2(x)
         x = self.mlp(x)
         x = shortcut + x
+        print(f'SwinTransformerBlock output: {x.shape}')
         return x
 
 class ConsecutiveSwinTransformerBlocks(nn.Module):
@@ -79,7 +81,7 @@ class ConsecutiveSwinTransformerBlocks(nn.Module):
         return x
 
 class PatchPartition(nn.Module):
-    def __init__(self, patch_size=4, in_chans=2, embed_dim=96):
+    def __init__(self, patch_size=4, in_chans=3, embed_dim=96):
         super(PatchPartition, self).__init__()
         self.patch_size = patch_size
         self.in_chans = in_chans
@@ -88,9 +90,11 @@ class PatchPartition(nn.Module):
         self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=patch_size)
 
     def forward(self, x):
+        print(f'PatchPartition input: {x.shape}')
         x = self.proj(x)
         B, C, H, W = x.shape
         x = x.flatten(2).transpose(1, 2)  # B, L, C
+        print(f'PatchPartition output: {x.shape}')
         return x
 
 class PatchMerging(nn.Module):
@@ -99,6 +103,7 @@ class PatchMerging(nn.Module):
         self.reduction = nn.Linear(4 * dim, 2 * dim, bias=False)
 
     def forward(self, x, H, W):
+        print(f'PatchMerging input: {x.shape}')
         B, L, C = x.shape
         assert L == H * W, "Input feature has wrong size"
 
@@ -111,10 +116,11 @@ class PatchMerging(nn.Module):
         x = torch.cat([x0, x1, x2, x3], -1)
         x = x.view(B, -1, 4 * C)
         x = self.reduction(x)
+        print(f'PatchMerging output: {x.shape}')
         return x
 
 class SwinTransformerBackbone(nn.Module):
-    def __init__(self, img_size=512, patch_size=4, in_chans=2, embed_dim=96, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24], window_size=7):
+    def __init__(self, img_size=512, patch_size=4, in_chans=3, embed_dim=96, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24], window_size=7):
         super(SwinTransformerBackbone, self).__init__()
         self.patch_partition = PatchPartition(patch_size, in_chans, embed_dim)
         self.num_layers = len(depths)
@@ -130,6 +136,7 @@ class SwinTransformerBackbone(nn.Module):
                 self.layers.append(PatchMerging(embed_dim * 2**i_layer))
 
     def forward(self, x):
+        print(f'Backbone input: {x.shape}')
         x = self.patch_partition(x)
         B, L, C = x.shape
         H, W = self.patches_resolution
@@ -144,6 +151,7 @@ class SwinTransformerBackbone(nn.Module):
                 for block in layer:
                     x = block(x)
             feature_pyramids.append(x.view(B, H, W, -1).permute(0, 3, 1, 2))  # B, C, H, W
+            print(f'Feature pyramid shape: {feature_pyramids[-1].shape}')
         return feature_pyramids
 
 class RPN(nn.Module):
@@ -155,9 +163,11 @@ class RPN(nn.Module):
         self.relu = nn.ReLU(inplace=True)
 
     def forward(self, x):
+        print(f'RPN input: {x.shape}')
         x = self.relu(self.conv(x))
         logits = self.cls_logits(x)
         bbox_pred = self.bbox_pred(x)
+        print(f'RPN output logits: {logits.shape}, bbox_pred: {bbox_pred.shape}')
         return logits, bbox_pred
 
 def generate_anchors(base_size=16, ratios=[0.5, 1, 2], scales=[8, 16, 32]):
@@ -169,36 +179,41 @@ def generate_anchors(base_size=16, ratios=[0.5, 1, 2], scales=[8, 16, 32]):
             anchors.append([-w / 2, -h / 2, w / 2, h / 2])
     return torch.tensor(anchors)
 
-def generate_anchor_boxes(feature_map_sizes, img_size, base_size=16):
-    all_anchors = []
-    for size in feature_map_sizes:
-        anchors = generate_anchors(base_size)
-        grid_x = torch.arange(size[1]) * base_size
-        grid_y = torch.arange(size[0]) * base_size
-        grid_y, grid_x = torch.meshgrid(grid_y, grid_x)
-        grid = torch.stack([grid_x, grid_y, grid_x, grid_y], dim=-1)
-        anchors = anchors.view(1, 1, -1, 4) + grid.view(size[0], size[1], 1, 4)
-        all_anchors.append(anchors.view(-1, 4))
-    return all_anchors
+def generate_anchor_boxes(feature_map_size, base_size=16, n_anchors=9):
+    anchors = generate_anchors(base_size)
+    grid_x = torch.arange(feature_map_size[1]) * base_size
+    grid_y = torch.arange(feature_map_size[0]) * base_size
+    grid_y, grid_x = torch.meshgrid(grid_y, grid_x, indexing="ij")
+    grid = torch.stack([grid_x, grid_y, grid_x, grid_y], dim=-1)
+    anchors = anchors.view(1, 1, -1, 4) + grid.view(feature_map_size[0], feature_map_size[1], 1, 4)
+    anchors = anchors.view(-1, 4)
+    # Duplicate anchors to match the number of predictions
+    anchors = anchors.repeat(2, 1)
+    return anchors
 
 def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, nms_thresh=0.7, pre_nms_top_n=6000, post_nms_top_n=300):
-    proposals = []
-    scores = []
-    for logits, bbox_pred, anchors in zip(rpn_logits, rpn_bbox_pred, anchor_boxes):
-        logits = logits.permute(0, 2, 3, 1).contiguous().view(-1, 1)
-        bbox_pred = bbox_pred.permute(0, 2, 3, 1).contiguous().view(-1, 4)
-        anchors = anchors.view(-1, 4)
-        
-        scores.append(logits)
-        proposals.append(bbox_pred + anchors)
+    print(f"RPN logits shape: {rpn_logits.shape}")
+    print(f"RPN bbox_pred shape: {rpn_bbox_pred.shape}")
+    print(f"Anchor boxes shape: {anchor_boxes.shape}")
     
-    scores = torch.cat(scores, dim=0)
-    proposals = torch.cat(proposals, dim=0)
+    logits = rpn_logits.permute(0, 2, 3, 1).contiguous().view(-1, 1)
+    bbox_pred = rpn_bbox_pred.permute(0, 2, 3, 1).contiguous().view(-1, 4)
+    anchors = anchor_boxes.view(-1, 4)
+
+    print(f"Logits shape: {logits.shape}")
+    print(f"Bbox_pred shape: {bbox_pred.shape}")
+    print(f"Anchors shape: {anchors.shape}")
     
+    scores = logits.squeeze()
+    print(f"Scores shape: {scores.shape}")
+    proposals = bbox_pred + anchors[:bbox_pred.shape[0], :]
+    print(f"Proposals shape: {proposals.shape}")
+
     proposals[:, [0, 2]] = proposals[:, [0, 2]].clamp(0, image_size[1])
     proposals[:, [1, 3]] = proposals[:, [1, 3]].clamp(0, image_size[0])
-    
-    keep = nms(proposals, scores.squeeze(), nms_thresh)
+
+    keep = nms(proposals, scores, nms_thresh)
+    print(f"Number of proposals after NMS: {len(keep)}")
     
     return proposals[keep[:post_nms_top_n]]
 
@@ -228,19 +243,22 @@ class SwinTransformerObjectDetection(nn.Module):
         )
 
     def forward(self, x):
+        print(f'Model input: {x.shape}')
         feature_pyramids = self.backbone(x)
         rpn_logits, rpn_bbox_pred = [], []
-        for feature_map in feature_pyramids:
-            logits, bbox_pred = self.rpn(feature_map)
-            rpn_logits.append(logits)
-            rpn_bbox_pred.append(bbox_pred)
+        feature_map = feature_pyramids[-1]
+        print(f'RPN input: {feature_map.shape}')
+        logits, bbox_pred = self.rpn(feature_map)
+        rpn_logits.append(logits)
+        rpn_bbox_pred.append(bbox_pred)
         
-        feature_map_sizes = [fm.size()[2:] for fm in feature_pyramids]
-        anchor_boxes = generate_anchor_boxes(feature_map_sizes, x.size()[2:])
-        
-        rois = generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, x.size()[2:])
+        feature_map_size = feature_map.size()[2:]
+        anchor_boxes = generate_anchor_boxes(feature_map_size, n_anchors=logits.shape[1])
+
+        rois = generate_proposals(rpn_logits[0], rpn_bbox_pred[0], anchor_boxes, x.size()[2:])
         
         pooled_features = roi_align(feature_pyramids[-1], rois, output_size=(7, 7), spatial_scale=1.0 / 16.0)
+        print(f'Pooled features: {pooled_features.shape}')
         
         pooled_features_flat = pooled_features.view(pooled_features.size(0), -1)
         cls_logits = self.cls_head(pooled_features_flat)
@@ -248,4 +266,17 @@ class SwinTransformerObjectDetection(nn.Module):
 
         mask_pred = self.mask_head(pooled_features)
 
+        print(f'Output - cls_logits: {cls_logits.shape}, bbox_regression: {bbox_regression.shape}, mask_pred: {mask_pred.shape}')
         return cls_logits, bbox_regression, mask_pred
+
+# Create backbone and ensure the correct output channels for the RPN
+backbone = SwinTransformerBackbone()
+# We should determine the correct output channels dynamically
+rpn_in_channels = backbone.layers[-1][0].block1.dim
+rpn = RPN(in_channels=rpn_in_channels)
+
+model = SwinTransformerObjectDetection(backbone, rpn)
+
+# Dummy input for testing
+dummy_input = torch.randn(2, 3, 512, 512)
+model(dummy_input)

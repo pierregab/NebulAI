@@ -56,9 +56,15 @@ def train_model(model, train_loader, val_loader, num_epochs=10, learning_rate=0.
 # Initialize the model
 img_size = 512
 in_chans = 3  # Assuming RGB images
-backbone = SwinTransformerBackbone(img_size=img_size, in_chans=in_chans)
-rpn = RPN(in_channels=backbone.num_layers * 96)
+
+# Create backbone and ensure the correct output channels for the RPN
+backbone = SwinTransformerBackbone()
+# We should determine the correct output channels dynamically
+rpn_in_channels = backbone.layers[-1][0].block1.dim
+rpn = RPN(in_channels=rpn_in_channels)
+
 model = SwinTransformerObjectDetection(backbone, rpn)
+
 
 # Load the data
 annotations_file = 'annotations.json'

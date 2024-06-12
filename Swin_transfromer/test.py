@@ -63,7 +63,6 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001):
     criterion_cls = nn.CrossEntropyLoss()
     criterion_bbox = nn.SmoothL1Loss()
 
-
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -122,7 +121,7 @@ def validate(model, val_loader, device, threshold=0.5):
 
 if __name__ == "__main__":
     annotations_file = 'annotations.json'
-    train_loader, val_loader = get_data_loaders(annotations_file)
+    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 

@@ -2,6 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.ops import roi_align, nms
+import torchvision.ops as ops
+
+
 
 class RelativePositionEncoding(nn.Module):
     def __init__(self, d_model, max_len=512):
@@ -207,6 +210,8 @@ def generate_anchor_boxes(feature_map_size, base_size=16, n_anchors=9):
     return anchors
 
 def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, batch_size, nms_thresh=0.7, pre_nms_top_n=6000, post_nms_top_n=300, debug=False):
+    device = rpn_logits.device
+
     if debug:
         print(f"RPN logits shape: {rpn_logits.shape}")
         print(f"RPN bbox_pred shape: {rpn_bbox_pred.shape}")
@@ -214,7 +219,7 @@ def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, batc
     
     logits = rpn_logits.permute(0, 2, 3, 1).contiguous().view(-1, 1)
     bbox_pred = rpn_bbox_pred.permute(0, 2, 3, 1).contiguous().view(-1, 4)
-    anchors = anchor_boxes.view(-1, 4)
+    anchors = anchor_boxes.view(-1, 4).to(device)
 
     if debug:
         print(f"Logits shape: {logits.shape}")
@@ -231,7 +236,7 @@ def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, batc
     proposals[:, [0, 2]] = proposals[:, [0, 2]].clamp(0, image_size[1])
     proposals[:, [1, 3]] = proposals[:, [1, 3]].clamp(0, image_size[0])
 
-    keep = nms(proposals, scores, nms_thresh)
+    keep = ops.nms(proposals, scores, nms_thresh)
     if debug:
         print(f"Number of proposals after NMS: {len(keep)}")
 

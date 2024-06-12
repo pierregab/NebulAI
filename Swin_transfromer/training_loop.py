@@ -5,7 +5,7 @@ from Swin_transformer_based_model import SwinTransformerObjectDetection, SwinTra
 from dataset import get_data_loaders
 
 def train_model(model, train_loader, val_loader, num_epochs=10, learning_rate=0.001):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
     model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     criterion_cls = nn.CrossEntropyLoss()

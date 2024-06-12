@@ -1,0 +1,1652 @@
+[
+    {
+        "file_path": "output_images/401236-4_shifted_512x512.png",
+        "bbox": [
+            443,
+            250,
+            499,
+            306
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410137-3_shifted_512x512.png",
+        "bbox": [
+            208,
+            61,
+            308,
+            161
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408201-3_shifted_512x512.png",
+        "bbox": [
+            353,
+            286,
+            453,
+            386
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410116-1_shifted_512x512.png",
+        "bbox": [
+            239,
+            275,
+            391,
+            427
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/572512-2_shifted_512x512.png",
+        "bbox": [
+            173,
+            69,
+            307,
+            203
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/418500-4_shifted_512x512.png",
+        "bbox": [
+            89,
+            77,
+            141,
+            129
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/687110-3_shifted_512x512.png",
+        "bbox": [
+            61,
+            40,
+            511,
+            490
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/413378-2_shifted_512x512.png",
+        "bbox": [
+            37,
+            149,
+            227,
+            339
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/460170-4_shifted_512x512.png",
+        "bbox": [
+            138,
+            2,
+            232,
+            96
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/687053-4_shifted_512x512.png",
+        "bbox": [
+            231,
+            82,
+            321,
+            172
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/460206-2_shifted_512x512.png",
+        "bbox": [
+            269,
+            259,
+            497,
+            487
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/477637-3_shifted_512x512.png",
+        "bbox": [
+            319,
+            39,
+            501,
+            221
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/571920-3_shifted_512x512.png",
+        "bbox": [
+            193,
+            237,
+            285,
+            329
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410865-1_shifted_512x512.png",
+        "bbox": [
+            230,
+            195,
+            344,
+            309
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399436-1_shifted_512x512.png",
+        "bbox": [
+            172,
+            263,
+            228,
+            319
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/407192-4_shifted_512x512.png",
+        "bbox": [
+            374,
+            208,
+            478,
+            312
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399388-3_shifted_512x512.png",
+        "bbox": [
+            138,
+            226,
+            310,
+            398
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/455476-3_shifted_512x512.png",
+        "bbox": [
+            204,
+            151,
+            474,
+            421
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/529387-3_shifted_512x512.png",
+        "bbox": [
+            391,
+            36,
+            485,
+            130
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/359218-4_shifted_512x512.png",
+        "bbox": [
+            351,
+            85,
+            485,
+            219
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/359061-3_shifted_512x512.png",
+        "bbox": [
+            36,
+            58,
+            146,
+            168
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/411897-1_shifted_512x512.png",
+        "bbox": [
+            97,
+            53,
+            171,
+            127
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/373685-2_shifted_512x512.png",
+        "bbox": [
+            107,
+            96,
+            475,
+            464
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/411588-4_shifted_512x512.png",
+        "bbox": [
+            19,
+            276,
+            205,
+            462
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/648855-4_shifted_512x512.png",
+        "bbox": [
+            140,
+            37,
+            464,
+            361
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/421326-1_shifted_512x512.png",
+        "bbox": [
+            20,
+            301,
+            96,
+            377
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/463497-3_shifted_512x512.png",
+        "bbox": [
+            27,
+            149,
+            107,
+            229
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/374972-3_shifted_512x512.png",
+        "bbox": [
+            86,
+            18,
+            244,
+            176
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/922226-1_shifted_512x512.png",
+        "bbox": [
+            136,
+            148,
+            240,
+            252
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/419265-4_shifted_512x512.png",
+        "bbox": [
+            69,
+            138,
+            243,
+            312
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/430971-1_shifted_512x512.png",
+        "bbox": [
+            174,
+            254,
+            268,
+            348
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/482053-4_shifted_512x512.png",
+        "bbox": [
+            377,
+            262,
+            439,
+            324
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/483031-1_shifted_512x512.png",
+        "bbox": [
+            101,
+            190,
+            159,
+            248
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/941363-4_shifted_512x512.png",
+        "bbox": [
+            94,
+            181,
+            222,
+            309
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/948916-4_shifted_512x512.png",
+        "bbox": [
+            91,
+            136,
+            435,
+            480
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/599901-3_shifted_512x512.png",
+        "bbox": [
+            241,
+            3,
+            341,
+            103
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/569145-1_shifted_512x512.png",
+        "bbox": [
+            119,
+            219,
+            411,
+            511
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/406746-2_shifted_512x512.png",
+        "bbox": [
+            289,
+            168,
+            351,
+            230
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/463987-4_shifted_512x512.png",
+        "bbox": [
+            222,
+            223,
+            394,
+            395
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/401257-4_shifted_512x512.png",
+        "bbox": [
+            200,
+            203,
+            264,
+            267
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/401347-4_shifted_512x512.png",
+        "bbox": [
+            59,
+            199,
+            217,
+            357
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/406773-3_shifted_512x512.png",
+        "bbox": [
+            233,
+            147,
+            303,
+            217
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/407521-1_shifted_512x512.png",
+        "bbox": [
+            458,
+            130,
+            510,
+            182
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/572590-4_shifted_512x512.png",
+        "bbox": [
+            44,
+            12,
+            360,
+            328
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/596891-4_shifted_512x512.png",
+        "bbox": [
+            61,
+            57,
+            251,
+            247
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/949048-1_shifted_512x512.png",
+        "bbox": [
+            364,
+            230,
+            430,
+            296
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399463-2_shifted_512x512.png",
+        "bbox": [
+            186,
+            172,
+            250,
+            236
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/406871-3_shifted_512x512.png",
+        "bbox": [
+            225,
+            294,
+            333,
+            402
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/599058-3_shifted_512x512.png",
+        "bbox": [
+            101,
+            38,
+            435,
+            372
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/413952-2_shifted_512x512.png",
+        "bbox": [
+            14,
+            404,
+            76,
+            466
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/455939-2_shifted_512x512.png",
+        "bbox": [
+            99,
+            284,
+            285,
+            470
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/540945-3_shifted_512x512.png",
+        "bbox": [
+            3,
+            3,
+            509,
+            509
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/596792-2_shifted_512x512.png",
+        "bbox": [
+            305,
+            294,
+            495,
+            484
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/367894-2_shifted_512x512.png",
+        "bbox": [
+            366,
+            386,
+            470,
+            490
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/464908-2_shifted_512x512.png",
+        "bbox": [
+            88,
+            80,
+            480,
+            472
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/418530-1_shifted_512x512.png",
+        "bbox": [
+            155,
+            169,
+            481,
+            495
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/460206-1_shifted_512x512.png",
+        "bbox": [
+            237,
+            375,
+            337,
+            475
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/431229-2_shifted_512x512.png",
+        "bbox": [
+            159,
+            46,
+            325,
+            212
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/541609-3_shifted_512x512.png",
+        "bbox": [
+            300,
+            179,
+            472,
+            351
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/400916-2_shifted_512x512.png",
+        "bbox": [
+            314,
+            75,
+            390,
+            151
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/942879-4_shifted_512x512.png",
+        "bbox": [
+            79,
+            8,
+            499,
+            428
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399234-2_shifted_512x512.png",
+        "bbox": [
+            184,
+            208,
+            484,
+            508
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/411273-2_shifted_512x512.png",
+        "bbox": [
+            226,
+            5,
+            426,
+            205
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410488-2_shifted_512x512.png",
+        "bbox": [
+            305,
+            118,
+            495,
+            308
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/407521-4_shifted_512x512.png",
+        "bbox": [
+            367,
+            360,
+            457,
+            450
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/563787-2_shifted_512x512.png",
+        "bbox": [
+            271,
+            215,
+            405,
+            349
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410110-1_shifted_512x512.png",
+        "bbox": [
+            231,
+            189,
+            349,
+            307
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/687381-3_shifted_512x512.png",
+        "bbox": [
+            114,
+            158,
+            180,
+            224
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410560-2_shifted_512x512.png",
+        "bbox": [
+            140,
+            370,
+            192,
+            422
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/570226-1_shifted_512x512.png",
+        "bbox": [
+            69,
+            49,
+            423,
+            403
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/464890-1_shifted_512x512.png",
+        "bbox": [
+            149,
+            3,
+            435,
+            289
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/471813-3_shifted_512x512.png",
+        "bbox": [
+            9,
+            139,
+            305,
+            435
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/474016-4_shifted_512x512.png",
+        "bbox": [
+            190,
+            189,
+            362,
+            361
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/376638-4_shifted_512x512.png",
+        "bbox": [
+            329,
+            317,
+            443,
+            431
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/479084-2_shifted_512x512.png",
+        "bbox": [
+            6,
+            19,
+            460,
+            473
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/480531-4_shifted_512x512.png",
+        "bbox": [
+            8,
+            58,
+            442,
+            492
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/538452-2_shifted_512x512.png",
+        "bbox": [
+            14,
+            150,
+            94,
+            230
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/479588-3_shifted_512x512.png",
+        "bbox": [
+            164,
+            101,
+            426,
+            363
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/479615-3_shifted_512x512.png",
+        "bbox": [
+            35,
+            151,
+            369,
+            485
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/542033-4_shifted_512x512.png",
+        "bbox": [
+            251,
+            343,
+            399,
+            491
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/542623-1_shifted_512x512.png",
+        "bbox": [
+            17,
+            31,
+            447,
+            461
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/401954-2_shifted_512x512.png",
+        "bbox": [
+            214,
+            209,
+            336,
+            331
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/401954-1_shifted_512x512.png",
+        "bbox": [
+            83,
+            59,
+            191,
+            167
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/942372-2_shifted_512x512.png",
+        "bbox": [
+            38,
+            313,
+            108,
+            383
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408072-1_shifted_512x512.png",
+        "bbox": [
+            76,
+            354,
+            198,
+            476
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408457-3_shifted_512x512.png",
+        "bbox": [
+            68,
+            22,
+            508,
+            462
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399153-3_shifted_512x512.png",
+        "bbox": [
+            270,
+            376,
+            338,
+            444
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399201-4_shifted_512x512.png",
+        "bbox": [
+            453,
+            441,
+            511,
+            499
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408517-4_shifted_512x512.png",
+        "bbox": [
+            160,
+            112,
+            246,
+            198
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/407121-3_shifted_512x512.png",
+        "bbox": [
+            239,
+            224,
+            315,
+            300
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410515-3_shifted_512x512.png",
+        "bbox": [
+            202,
+            124,
+            264,
+            186
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/413381-1_shifted_512x512.png",
+        "bbox": [
+            229,
+            199,
+            429,
+            399
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/687170-4_shifted_512x512.png",
+        "bbox": [
+            228,
+            149,
+            300,
+            221
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/475580-3_shifted_512x512.png",
+        "bbox": [
+            272,
+            73,
+            492,
+            293
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/919973-3_shifted_512x512.png",
+        "bbox": [
+            50,
+            291,
+            112,
+            353
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/687800-1_shifted_512x512.png",
+        "bbox": [
+            404,
+            237,
+            490,
+            323
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/920703-2_shifted_512x512.png",
+        "bbox": [
+            147,
+            380,
+            255,
+            488
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/941954-3_shifted_512x512.png",
+        "bbox": [
+            436,
+            216,
+            496,
+            276
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/457774-2_shifted_512x512.png",
+        "bbox": [
+            218,
+            205,
+            504,
+            491
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/421179-4_shifted_512x512.png",
+        "bbox": [
+            139,
+            286,
+            257,
+            404
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/460340-2_shifted_512x512.png",
+        "bbox": [
+            341,
+            95,
+            429,
+            183
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/460682-3_shifted_512x512.png",
+        "bbox": [
+            125,
+            279,
+            183,
+            337
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/460682-4_shifted_512x512.png",
+        "bbox": [
+            14,
+            8,
+            178,
+            172
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399367-1_shifted_512x512.png",
+        "bbox": [
+            138,
+            244,
+            198,
+            304
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/461008-4_shifted_512x512.png",
+        "bbox": [
+            187,
+            152,
+            345,
+            310
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399481-1_shifted_512x512.png",
+        "bbox": [
+            279,
+            127,
+            479,
+            327
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/686280-2_shifted_512x512.png",
+        "bbox": [
+            328,
+            184,
+            472,
+            328
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408321-3_shifted_512x512.png",
+        "bbox": [
+            352,
+            147,
+            422,
+            217
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408640-1_shifted_512x512.png",
+        "bbox": [
+            163,
+            65,
+            213,
+            115
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/461550-1_shifted_512x512.png",
+        "bbox": [
+            170,
+            83,
+            260,
+            173
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/427969-2_shifted_512x512.png",
+        "bbox": [
+            308,
+            98,
+            454,
+            244
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/474028-2_shifted_512x512.png",
+        "bbox": [
+            145,
+            323,
+            249,
+            427
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/942405-4_shifted_512x512.png",
+        "bbox": [
+            446,
+            416,
+            508,
+            478
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/598992-1_shifted_512x512.png",
+        "bbox": [
+            186,
+            262,
+            376,
+            452
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/406674-4_shifted_512x512.png",
+        "bbox": [
+            59,
+            360,
+            117,
+            418
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/421161-1_shifted_512x512.png",
+        "bbox": [
+            248,
+            334,
+            394,
+            480
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/461995-2_shifted_512x512.png",
+        "bbox": [
+            52,
+            171,
+            180,
+            299
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/407521-3_shifted_512x512.png",
+        "bbox": [
+            341,
+            88,
+            441,
+            188
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408114-3_shifted_512x512.png",
+        "bbox": [
+            57,
+            301,
+            175,
+            419
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399234-2_shifted_512x512.png",
+        "bbox": [
+            260,
+            229,
+            426,
+            395
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/570301-2_shifted_512x512.png",
+        "bbox": [
+            249,
+            20,
+            449,
+            220
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/461965-3_shifted_512x512.png",
+        "bbox": [
+            30,
+            178,
+            176,
+            324
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/407593-4_shifted_512x512.png",
+        "bbox": [
+            107,
+            255,
+            255,
+            403
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/536611-4_shifted_512x512.png",
+        "bbox": [
+            269,
+            115,
+            369,
+            215
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/464623-2_shifted_512x512.png",
+        "bbox": [
+            405,
+            354,
+            505,
+            454
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/570298-3_shifted_512x512.png",
+        "bbox": [
+            103,
+            264,
+            231,
+            392
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408703-2_shifted_512x512.png",
+        "bbox": [
+            339,
+            56,
+            395,
+            112
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/479645-3_shifted_512x512.png",
+        "bbox": [
+            108,
+            177,
+            442,
+            511
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/463912-4_shifted_512x512.png",
+        "bbox": [
+            327,
+            229,
+            379,
+            281
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/457965-4_shifted_512x512.png",
+        "bbox": [
+            368,
+            255,
+            506,
+            393
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/942405-1_shifted_512x512.png",
+        "bbox": [
+            91,
+            220,
+            177,
+            306
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/470916-3_shifted_512x512.png",
+        "bbox": [
+            127,
+            67,
+            341,
+            281
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399391-1_shifted_512x512.png",
+        "bbox": [
+            193,
+            260,
+            303,
+            370
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/406545-1_shifted_512x512.png",
+        "bbox": [
+            397,
+            77,
+            463,
+            143
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/408649-2_shifted_512x512.png",
+        "bbox": [
+            16,
+            43,
+            220,
+            247
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/413709-2_shifted_512x512.png",
+        "bbox": [
+            293,
+            2,
+            387,
+            96
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/563829-4_shifted_512x512.png",
+        "bbox": [
+            139,
+            3,
+            291,
+            155
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/570223-1_shifted_512x512.png",
+        "bbox": [
+            396,
+            64,
+            452,
+            120
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/704185-2_shifted_512x512.png",
+        "bbox": [
+            303,
+            47,
+            413,
+            157
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/413808-2_shifted_512x512.png",
+        "bbox": [
+            254,
+            121,
+            348,
+            215
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/420633-4_shifted_512x512.png",
+        "bbox": [
+            369,
+            111,
+            445,
+            187
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399463-4_shifted_512x512.png",
+        "bbox": [
+            212,
+            249,
+            384,
+            421
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/428107-4_shifted_512x512.png",
+        "bbox": [
+            33,
+            3,
+            191,
+            161
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/399475-3_shifted_512x512.png",
+        "bbox": [
+            184,
+            389,
+            270,
+            475
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/459727-3_shifted_512x512.png",
+        "bbox": [
+            341,
+            139,
+            503,
+            301
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/536683-4_shifted_512x512.png",
+        "bbox": [
+            123,
+            320,
+            265,
+            462
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/428462-2_shifted_512x512.png",
+        "bbox": [
+            72,
+            12,
+            300,
+            240
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/463458-4_shifted_512x512.png",
+        "bbox": [
+            170,
+            272,
+            342,
+            444
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/919101-3_shifted_512x512.png",
+        "bbox": [
+            88,
+            57,
+            432,
+            401
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/571926-4_shifted_512x512.png",
+        "bbox": [
+            164,
+            42,
+            250,
+            128
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/455643-3_shifted_512x512.png",
+        "bbox": [
+            21,
+            15,
+            423,
+            417
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/687170-1_shifted_512x512.png",
+        "bbox": [
+            322,
+            181,
+            488,
+            347
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/941131-2_shifted_512x512.png",
+        "bbox": [
+            44,
+            287,
+            114,
+            357
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/529524-3_shifted_512x512.png",
+        "bbox": [
+            51,
+            185,
+            337,
+            471
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/455810-4_shifted_512x512.png",
+        "bbox": [
+            164,
+            93,
+            470,
+            399
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/481711-4_shifted_512x512.png",
+        "bbox": [
+            100,
+            273,
+            300,
+            473
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/687764-2_shifted_512x512.png",
+        "bbox": [
+            3,
+            41,
+            121,
+            159
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/563071-1_shifted_512x512.png",
+        "bbox": [
+            105,
+            103,
+            507,
+            505
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/464833-4_shifted_512x512.png",
+        "bbox": [
+            161,
+            63,
+            399,
+            301
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/378683-3_shifted_512x512.png",
+        "bbox": [
+            62,
+            90,
+            410,
+            438
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/419343-3_shifted_512x512.png",
+        "bbox": [
+            133,
+            97,
+            419,
+            383
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/410515-3_shifted_512x512.png",
+        "bbox": [
+            393,
+            193,
+            507,
+            307
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/563285-3_shifted_512x512.png",
+        "bbox": [
+            81,
+            115,
+            367,
+            401
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/359101-4_shifted_512x512.png",
+        "bbox": [
+            75,
+            7,
+            131,
+            63
+        ],
+        "class": "nebula"
+    },
+    {
+        "file_path": "output_images/373509-2_shifted_512x512.png",
+        "bbox": [
+            47,
+            162,
+            133,
+            248
+        ],
+        "class": "nebula"
+    }
+]

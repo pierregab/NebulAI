@@ -144,15 +144,11 @@ def download_and_crop_image(run, ccd, ra, dec, size_deg, annotations, debug=Fals
     except Exception as e:
         print(f"Error downloading or processing image {url}: {e}")
 
-def list_iphas_images_for_pn(pn_data, conn, debug=False, max_images=100):
+def list_iphas_images_for_pn(pn_data, conn, debug=False):
     all_results = []
     annotations = []
-    image_count = 0
 
     for index, row in pn_data.iterrows():
-        if image_count >= max_images:
-            break
-
         ra = row['RA']
         dec = row['DEC']
         size_deg = row['Size']
@@ -175,9 +171,6 @@ def list_iphas_images_for_pn(pn_data, conn, debug=False, max_images=100):
 
                 for _, img_row in image_data.iterrows():
                     download_and_crop_image(img_row['run'], img_row['ccd'], ra, dec, size_deg, annotations, debug)
-                    image_count += 1
-                    if image_count >= max_images:
-                        break
 
     if all_results:
         all_results_df = pd.concat(all_results, ignore_index=True)
@@ -200,14 +193,10 @@ def main():
         print("No PN data found. Exiting.")
         return
 
-    # Sample a subset of planetary nebulae if there are more than 100 entries
-    if len(pn_data) > 100:
-        pn_data = pn_data.sample(100, random_state=42)
-
     print(f"Queried {len(pn_data)} planetary nebulae from the input CSV.")
     
-    debug = True  # Set to True to enable debugging output with bounding boxes
-    list_iphas_images_for_pn(pn_data, conn, debug, max_images=100)
+    debug = False  # Set to True to enable debugging output with bounding boxes
+    list_iphas_images_for_pn(pn_data, conn, debug)
 
     conn.close()
     print("Process completed.")

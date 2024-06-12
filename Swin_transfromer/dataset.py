@@ -24,7 +24,7 @@ class NebulaDataset(Dataset):
         
         return img, bbox, label
 
-def get_data_loaders(annotations_file, batch_size=4, num_workers=2, train_split=0.8):
+def get_data_loaders(annotations_file, batch_size=2, num_workers=0, train_split=0.8):
     # Define transformations
     transform = transforms.Compose([
         transforms.ToTensor(),

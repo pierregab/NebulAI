@@ -3,9 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.ops import roi_align, nms
 
-# ===================================
-# Helper function for relative position encoding
-# ===================================
 class RelativePositionEncoding(nn.Module):
     def __init__(self, d_model, max_len=512):
         super(RelativePositionEncoding, self).__init__()
@@ -16,9 +13,6 @@ class RelativePositionEncoding(nn.Module):
         pos = self.encoding[:seq_len, :]
         return x + pos.unsqueeze(0)
 
-# ===================================
-# Swin-Transformer Block
-# ===================================
 class SwinTransformerBlock(nn.Module):
     def __init__(self, dim, num_heads, window_size, shift_size=0):
         super(SwinTransformerBlock, self).__init__()
@@ -52,7 +46,6 @@ class SwinTransformerBlock(nn.Module):
         
         x = x.view(B, L, C)
 
-        # Attention mechanism
         Q = self.query(x)
         K = self.key(x)
         V = self.value(x)
@@ -74,15 +67,10 @@ class SwinTransformerBlock(nn.Module):
         x = shortcut + x
         return x
 
-# ===================================
-# Consecutive Swin-Transformer Blocks
-# ===================================
 class ConsecutiveSwinTransformerBlocks(nn.Module):
     def __init__(self, dim, num_heads, window_size):
         super(ConsecutiveSwinTransformerBlocks, self).__init__()
-        # First block with regular windows
         self.block1 = SwinTransformerBlock(dim, num_heads, window_size, shift_size=0)
-        # Second block with shifted windows
         self.block2 = SwinTransformerBlock(dim, num_heads, window_size, shift_size=window_size // 2)
 
     def forward(self, x):
@@ -90,9 +78,6 @@ class ConsecutiveSwinTransformerBlocks(nn.Module):
         x = self.block2(x)
         return x
 
-# ===================================
-# Patch Partition and Patch Merging
-# ===================================
 class PatchPartition(nn.Module):
     def __init__(self, patch_size=4, in_chans=2, embed_dim=96):
         super(PatchPartition, self).__init__()
@@ -128,15 +113,13 @@ class PatchMerging(nn.Module):
         x = self.reduction(x)
         return x
 
-# ===================================
-# Swin-Transformer Backbone
-# ===================================
 class SwinTransformerBackbone(nn.Module):
     def __init__(self, img_size=512, patch_size=4, in_chans=2, embed_dim=96, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24], window_size=7):
         super(SwinTransformerBackbone, self).__init__()
         self.patch_partition = PatchPartition(patch_size, in_chans, embed_dim)
         self.num_layers = len(depths)
         self.layers = nn.ModuleList()
+        self.patches_resolution = (img_size // patch_size, img_size // patch_size)
         
         for i_layer in range(self.num_layers):
             layer = nn.ModuleList()
@@ -149,23 +132,20 @@ class SwinTransformerBackbone(nn.Module):
     def forward(self, x):
         x = self.patch_partition(x)
         B, L, C = x.shape
-        H, W = int(L ** 0.5), int(L ** 0.5)
-        assert H * W == L, "Input feature has wrong size"
+        H, W = self.patches_resolution
+        assert L == H * W, "Input feature has wrong size"
 
         feature_pyramids = []
         for layer in self.layers:
-            for block in layer:
-                if isinstance(block, ConsecutiveSwinTransformerBlocks):
+            if isinstance(layer, PatchMerging):
+                x = layer(x, H, W)
+                H, W = H // 2, W // 2
+            else:
+                for block in layer:
                     x = block(x)
-                else:
-                    x = block(x, H, W)
-                    H, W = H // 2, W // 2
             feature_pyramids.append(x.view(B, H, W, -1).permute(0, 3, 1, 2))  # B, C, H, W
         return feature_pyramids
 
-# ===================================
-# Region Proposal Network (RPN)
-# ===================================
 class RPN(nn.Module):
     def __init__(self, in_channels, mid_channels=256, n_anchors=9):
         super(RPN, self).__init__()
@@ -180,11 +160,7 @@ class RPN(nn.Module):
         bbox_pred = self.bbox_pred(x)
         return logits, bbox_pred
 
-# ===================================
-# Helper functions to generate anchors and proposals
-# ===================================
 def generate_anchors(base_size=16, ratios=[0.5, 1, 2], scales=[8, 16, 32]):
-    """Generates anchor boxes."""
     anchors = []
     for scale in scales:
         for ratio in ratios:
@@ -194,7 +170,6 @@ def generate_anchors(base_size=16, ratios=[0.5, 1, 2], scales=[8, 16, 32]):
     return torch.tensor(anchors)
 
 def generate_anchor_boxes(feature_map_sizes, img_size, base_size=16):
-    """Generates anchor boxes for all feature maps."""
     all_anchors = []
     for size in feature_map_sizes:
         anchors = generate_anchors(base_size)
@@ -207,7 +182,6 @@ def generate_anchor_boxes(feature_map_sizes, img_size, base_size=16):
     return all_anchors
 
 def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, nms_thresh=0.7, pre_nms_top_n=6000, post_nms_top_n=300):
-    """Generates proposals from RPN outputs."""
     proposals = []
     scores = []
     for logits, bbox_pred, anchors in zip(rpn_logits, rpn_bbox_pred, anchor_boxes):
@@ -221,18 +195,13 @@ def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, nms_
     scores = torch.cat(scores, dim=0)
     proposals = torch.cat(proposals, dim=0)
     
-    # Clip proposals to image boundaries
     proposals[:, [0, 2]] = proposals[:, [0, 2]].clamp(0, image_size[1])
     proposals[:, [1, 3]] = proposals[:, [1, 3]].clamp(0, image_size[0])
     
-    # Apply NMS
     keep = nms(proposals, scores.squeeze(), nms_thresh)
     
     return proposals[keep[:post_nms_top_n]]
 
-# ===================================
-# Swin-Transformer Object Detection Model
-# ===================================
 class SwinTransformerObjectDetection(nn.Module):
     def __init__(self, backbone, rpn, num_classes=2):
         super(SwinTransformerObjectDetection, self).__init__()
@@ -240,21 +209,18 @@ class SwinTransformerObjectDetection(nn.Module):
         self.rpn = rpn
         self.num_classes = num_classes
         
-        # Classification head
         self.cls_head = nn.Sequential(
             nn.Linear(256 * 7 * 7, 1024),
             nn.ReLU(),
             nn.Linear(1024, num_classes)
         )
         
-        # Bounding box regression head
         self.bbox_head = nn.Sequential(
             nn.Linear(256 * 7 * 7, 1024),
             nn.ReLU(),
             nn.Linear(1024, num_classes * 4)
         )
         
-        # Mask head
         self.mask_head = nn.Sequential(
             nn.ConvTranspose2d(256, 256, kernel_size=2, stride=2),
             nn.ReLU(),
@@ -262,7 +228,6 @@ class SwinTransformerObjectDetection(nn.Module):
         )
 
     def forward(self, x):
-        # Extract feature pyramids from the backbone
         feature_pyramids = self.backbone(x)
         rpn_logits, rpn_bbox_pred = [], []
         for feature_map in feature_pyramids:
@@ -270,36 +235,17 @@ class SwinTransformerObjectDetection(nn.Module):
             rpn_logits.append(logits)
             rpn_bbox_pred.append(bbox_pred)
         
-        # Generate anchor boxes for all feature maps
         feature_map_sizes = [fm.size()[2:] for fm in feature_pyramids]
         anchor_boxes = generate_anchor_boxes(feature_map_sizes, x.size()[2:])
         
-        # Generate ROIs from RPN outputs
         rois = generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, x.size()[2:])
         
-        # ROI Align
         pooled_features = roi_align(feature_pyramids[-1], rois, output_size=(7, 7), spatial_scale=1.0 / 16.0)
         
-        # Classification and Bounding Box Regression
         pooled_features_flat = pooled_features.view(pooled_features.size(0), -1)
         cls_logits = self.cls_head(pooled_features_flat)
         bbox_regression = self.bbox_head(pooled_features_flat)
 
-        # Mask Prediction
         mask_pred = self.mask_head(pooled_features)
 
         return cls_logits, bbox_regression, mask_pred
-
-# ===================================
-# Example usage
-# ===================================
-if __name__ == '__main__':
-    img_size = 512
-    in_chans = 2
-    x = torch.randn(1, in_chans, img_size, img_size)  # Example input image
-    backbone = SwinTransformerBackbone(img_size=img_size, in_chans=in_chans)
-    rpn = RPN(in_channels=backbone.num_layers * 96)
-    model = SwinTransformerObjectDetection(backbone, rpn)
-
-    cls_logits, bbox_regression, mask_pred = model(x)
-    print(cls_logits.shape, bbox_regression.shape, mask_pred.shape)

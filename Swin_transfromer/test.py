@@ -7,6 +7,36 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from sklearn.metrics import precision_score, recall_score
 
+def match_proposals_with_ground_truth(proposals, ground_truths, iou_threshold=0.5):
+    matched_proposals = []
+    matched_ground_truths = []
+    for gt in ground_truths:
+        max_iou = 0
+        best_proposal = None
+        for proposal in proposals:
+            iou = calculate_iou(gt, proposal)
+            if iou > max_iou:
+                max_iou = iou
+                best_proposal = proposal
+        if max_iou >= iou_threshold:
+            matched_proposals.append(best_proposal)
+            matched_ground_truths.append(gt)
+    return matched_proposals, matched_ground_truths
+
+def calculate_iou(boxA, boxB):
+    xA = max(boxA[0], boxB[0])
+    yA = max(boxA[1], boxB[1])
+    xB = min(boxA[2], boxB[2])
+    yB = min(boxB[3], boxA[3])
+    
+    interArea = max(0, xB - xA + 1) * max(0, yB - yA + 1)
+    boxAArea = (boxA[2] - boxA[0] + 1) * (boxA[3] - boxA[1] + 1)
+    boxBArea = (boxB[2] - boxB[0] + 1) * (boxB[3] - boxB[1] + 1)
+    
+    iou = interArea / float(boxAArea + boxBArea - interArea)
+    
+    return iou
+
 def visualize_detections(image, boxes, cls_logits, threshold=0.5):
     if isinstance(image, torch.Tensor):
         image = transforms.ToPILImage()(image)
@@ -33,18 +63,33 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001):
     criterion_cls = nn.CrossEntropyLoss()
     criterion_bbox = nn.SmoothL1Loss()
 
+    model.set_debug(False)  # Disable debugging
+
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
 
-        for imgs, bboxes, labels in train_loader:
+        print(f"Starting epoch {epoch+1}/{num_epochs}")
+
+        for i, (imgs, bboxes, labels) in enumerate(train_loader):
+            print(f"Processing batch {i+1}/{len(train_loader)}")
             imgs, bboxes, labels = imgs.to(device), bboxes.to(device), labels.to(device)
 
             optimizer.zero_grad()
             cls_logits, bbox_regression, _ = model(imgs)
 
+            # Match proposals with ground truth
+            proposals = bbox_regression.view(-1, 4)
+            matched_proposals, matched_ground_truths = match_proposals_with_ground_truth(proposals, bboxes.view(-1, 4))
+
+            if not matched_proposals:
+                continue
+
+            matched_proposals = torch.stack(matched_proposals)
+            matched_ground_truths = torch.stack(matched_ground_truths)
+
             loss_cls = criterion_cls(cls_logits, labels)
-            loss_bbox = criterion_bbox(bbox_regression, bboxes)
+            loss_bbox = criterion_bbox(matched_proposals, matched_ground_truths)
             loss = loss_cls + loss_bbox
 
             loss.backward()
@@ -62,7 +107,8 @@ def validate(model, val_loader, device, threshold=0.5):
     all_preds = []
 
     with torch.no_grad():
-        for imgs, bboxes, labels in val_loader:
+        for i, (imgs, bboxes, labels) in enumerate(val_loader):
+            print(f"Validating batch {i+1}/{len(val_loader)}")
             imgs, bboxes, labels = imgs.to(device), bboxes.to(device), labels.to(device)
             cls_logits, bbox_regression, _ = model(imgs)
 
@@ -82,10 +128,12 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Create backbone and ensure the correct output channels for the RPN
-    backbone = SwinTransformerBackbone()
+    backbone = SwinTransformerBackbone(debug=False)
     rpn_in_channels = backbone.layers[-1][0].block1.dim
-    rpn = RPN(in_channels=rpn_in_channels)
+    rpn = RPN(in_channels=rpn_in_channels, debug=False)
 
-    model = SwinTransformerObjectDetection(backbone, rpn)
+    model = SwinTransformerObjectDetection(backbone, rpn, debug=False)
     
+    print("Starting training process")
     train(model, train_loader, val_loader, device, num_epochs=10)
+    print("Training process finished")

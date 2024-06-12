@@ -242,8 +242,9 @@ class SwinTransformerObjectDetection(nn.Module):
             nn.Linear(1024, num_classes * 4)
         )
         
+        # Adjusted mask head to accept 768 channels
         self.mask_head = nn.Sequential(
-            nn.ConvTranspose2d(256, 256, kernel_size=2, stride=2),
+            nn.ConvTranspose2d(768, 256, kernel_size=2, stride=2),
             nn.ReLU(),
             nn.Conv2d(256, 1, kernel_size=1)
         )
@@ -286,4 +287,5 @@ model = SwinTransformerObjectDetection(backbone, rpn)
 # Dummy input for testing
 dummy_input = torch.randn(2, 3, 512, 512)
 model(dummy_input)
+
 

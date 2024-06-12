@@ -191,7 +191,7 @@ def generate_anchor_boxes(feature_map_size, base_size=16, n_anchors=9):
     anchors = anchors.repeat(2, 1)
     return anchors
 
-def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, nms_thresh=0.7, pre_nms_top_n=6000, post_nms_top_n=300):
+def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, batch_size, nms_thresh=0.7, pre_nms_top_n=6000, post_nms_top_n=300):
     print(f"RPN logits shape: {rpn_logits.shape}")
     print(f"RPN bbox_pred shape: {rpn_bbox_pred.shape}")
     print(f"Anchor boxes shape: {anchor_boxes.shape}")
@@ -214,8 +214,14 @@ def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, nms_
 
     keep = nms(proposals, scores, nms_thresh)
     print(f"Number of proposals after NMS: {len(keep)}")
-    
-    return proposals[keep[:post_nms_top_n]]
+
+    # Add batch index to the proposals
+    keep = keep[:post_nms_top_n]
+    batch_indices = torch.arange(batch_size, dtype=proposals.dtype, device=proposals.device).repeat_interleave(len(keep) // batch_size)
+    rois = torch.cat([batch_indices[:, None], proposals[keep]], dim=1)
+
+    return rois
+
 
 class SwinTransformerObjectDetection(nn.Module):
     def __init__(self, backbone, rpn, num_classes=2):
@@ -225,13 +231,13 @@ class SwinTransformerObjectDetection(nn.Module):
         self.num_classes = num_classes
         
         self.cls_head = nn.Sequential(
-            nn.Linear(256 * 7 * 7, 1024),
+            nn.Linear(768 * 7 * 7, 1024),
             nn.ReLU(),
             nn.Linear(1024, num_classes)
         )
         
         self.bbox_head = nn.Sequential(
-            nn.Linear(256 * 7 * 7, 1024),
+            nn.Linear(768 * 7 * 7, 1024),
             nn.ReLU(),
             nn.Linear(1024, num_classes * 4)
         )
@@ -255,7 +261,7 @@ class SwinTransformerObjectDetection(nn.Module):
         feature_map_size = feature_map.size()[2:]
         anchor_boxes = generate_anchor_boxes(feature_map_size, n_anchors=logits.shape[1])
 
-        rois = generate_proposals(rpn_logits[0], rpn_bbox_pred[0], anchor_boxes, x.size()[2:])
+        rois = generate_proposals(rpn_logits[0], rpn_bbox_pred[0], anchor_boxes, x.size()[2:], x.size(0))
         
         pooled_features = roi_align(feature_pyramids[-1], rois, output_size=(7, 7), spatial_scale=1.0 / 16.0)
         print(f'Pooled features: {pooled_features.shape}')
@@ -280,3 +286,4 @@ model = SwinTransformerObjectDetection(backbone, rpn)
 # Dummy input for testing
 dummy_input = torch.randn(2, 3, 512, 512)
 model(dummy_input)
+

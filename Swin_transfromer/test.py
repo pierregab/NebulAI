@@ -63,7 +63,6 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001):
     criterion_cls = nn.CrossEntropyLoss()
     criterion_bbox = nn.SmoothL1Loss()
 
-    model.set_debug(False)  # Disable debugging
 
     for epoch in range(num_epochs):
         model.train()
@@ -85,8 +84,8 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001):
             if not matched_proposals:
                 continue
 
-            matched_proposals = torch.stack(matched_proposals)
-            matched_ground_truths = torch.stack(matched_ground_truths)
+            matched_proposals = torch.stack(matched_proposals).to(device)
+            matched_ground_truths = torch.stack(matched_ground_truths).to(device)
 
             loss_cls = criterion_cls(cls_logits, labels)
             loss_bbox = criterion_bbox(matched_proposals, matched_ground_truths)
@@ -125,14 +124,14 @@ if __name__ == "__main__":
     annotations_file = 'annotations.json'
     train_loader, val_loader = get_data_loaders(annotations_file)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
     # Create backbone and ensure the correct output channels for the RPN
-    backbone = SwinTransformerBackbone(debug=False)
+    backbone = SwinTransformerBackbone()
     rpn_in_channels = backbone.layers[-1][0].block1.dim
-    rpn = RPN(in_channels=rpn_in_channels, debug=False)
+    rpn = RPN(in_channels=rpn_in_channels)
 
-    model = SwinTransformerObjectDetection(backbone, rpn, debug=False)
+    model = SwinTransformerObjectDetection(backbone, rpn)
     
     print("Starting training process")
     train(model, train_loader, val_loader, device, num_epochs=10)

@@ -301,12 +301,12 @@ class SwinTransformerObjectDetection(nn.Module):
         return cls_logits, bbox_regression, mask_pred
 
 # Create backbone and ensure the correct output channels for the RPN
-backbone = SwinTransformerBackbone(debug=True)
+backbone = SwinTransformerBackbone()
 # We should determine the correct output channels dynamically
 rpn_in_channels = backbone.layers[-1][0].block1.dim
-rpn = RPN(in_channels=rpn_in_channels, debug=True)
+rpn = RPN(in_channels=rpn_in_channels)
 
-model = SwinTransformerObjectDetection(backbone, rpn, debug=True)
+model = SwinTransformerObjectDetection(backbone, rpn)
 
 # Dummy input for testing
 dummy_input = torch.randn(2, 3, 512, 512)

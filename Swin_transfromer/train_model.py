@@ -32,11 +32,11 @@ def calculate_iou(boxA, boxB):
     xA = max(boxA[0], boxB[0])
     yA = max(boxA[1], boxB[1])
     xB = min(boxA[2], boxB[2])
-    yB = min(boxB[3], boxA[3])
+    yB = max(boxA[3], boxB[3])
     
-    interArea = max(0, xB - xA + 1) * max(0, yB - yA + 1)
-    boxAArea = (boxA[2] - boxA[0] + 1) * (boxA[3] - boxA[1] + 1)
-    boxBArea = (boxB[2] - boxB[0] + 1) * (boxB[3] - boxB[1] + 1)
+    interArea = max(0, xB - xA) * max(0, yB - yA)
+    boxAArea = (boxA[2] - boxA[0]) * (boxA[3] - boxA[1])
+    boxBArea = (boxB[2] - boxB[0]) * (boxB[3] - boxB[1])
     
     iou = interArea / float(boxAArea + boxBArea - interArea)
     
@@ -64,7 +64,6 @@ def visualize_detections(image, boxes, cls_logits, threshold=0.5):
 
 def start_tensorboard(log_dir): 
     try:
-        # Ensure the log directory exists
         os.makedirs(log_dir, exist_ok=True)
         process = subprocess.Popen(['tensorboard', '--logdir', log_dir], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
@@ -84,8 +83,6 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
     
     writer = SummaryWriter(log_dir=log_dir)
     
-    start_tensorboard(log_dir)
-    
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -99,7 +96,6 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
             optimizer.zero_grad()
             cls_logits, bbox_regression, _ = model(imgs)
 
-            # Match proposals with ground truth
             proposals = bbox_regression.view(-1, 4)
             matched_proposals, matched_ground_truths = match_proposals_with_ground_truth(proposals, bboxes.view(-1, 4))
 
@@ -118,14 +114,12 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
 
             running_loss += loss.item()
 
-            # Logging losses to TensorBoard
             writer.add_scalar('Loss/Total', running_loss/(i+1), epoch*len(train_loader)+i)
             writer.add_scalar('Loss/Classification', loss_cls.item(), epoch*len(train_loader)+i)
             writer.add_scalar('Loss/Regression', loss_bbox.item(), epoch*len(train_loader)+i)
         
         print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {running_loss/len(train_loader)}")
 
-        # Validate and log precision and recall
         precision, recall = validate(model, val_loader, device, writer, epoch)
         writer.add_scalar('Precision', precision, epoch)
         writer.add_scalar('Recall', recall, epoch)
@@ -147,11 +141,12 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
             all_labels.extend(labels.cpu().numpy())
             all_preds.extend(preds.cpu().numpy())
 
-            # Visualize and log bounding boxes for the first image in the batch
             if i == 0:
                 img_grid = torchvision.utils.make_grid(imgs)
                 writer.add_image('Validation Images', img_grid, epoch)
-                visualize_detections(imgs[0], bbox_regression[0], cls_logits, threshold)
+
+                if bbox_regression.numel() > 0:  # Check if bbox_regression is not empty
+                    visualize_detections(imgs[0], bbox_regression[0].view(-1, 4).cpu(), cls_logits, threshold)
 
     precision = precision_score(all_labels, all_preds)
     recall = recall_score(all_labels, all_preds)
@@ -162,15 +157,14 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
 
 if __name__ == "__main__":
     annotations_file = 'annotations.json'
-    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1)
+    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1, num_images=4)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
-    # Create backbone and ensure the correct output channels for the RPN
     backbone = SwinTransformerBackbone()
     rpn_in_channels = backbone.layers[-1][0].block1.dim
     rpn = RPN(in_channels=rpn_in_channels)
-
+    
     model = SwinTransformerObjectDetection(backbone, rpn)
     
     print("Starting training process")

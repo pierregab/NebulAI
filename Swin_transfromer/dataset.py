@@ -24,7 +24,7 @@ class NebulaDataset(Dataset):
         
         return img, bbox, label
 
-def get_data_loaders(annotations_file, batch_size=2, num_workers=0, train_split=0.8):
+def get_data_loaders(annotations_file, batch_size=2, num_workers=0, train_split=0.8, num_images=None):
     # Define transformations
     transform = transforms.Compose([
         transforms.ToTensor(),
@@ -33,6 +33,11 @@ def get_data_loaders(annotations_file, batch_size=2, num_workers=0, train_split=
 
     # Create dataset
     dataset = NebulaDataset(annotations_file, transform=transform)
+
+    # Limit dataset to specified number of images if provided
+    if num_images is not None:
+        num_images = min(num_images, len(dataset))
+        dataset = torch.utils.data.Subset(dataset, list(range(num_images)))
 
     # Split dataset into training and validation sets
     train_size = int(train_split * len(dataset))
@@ -47,4 +52,4 @@ def get_data_loaders(annotations_file, batch_size=2, num_workers=0, train_split=
 
 # Usage
 annotations_file = 'annotations.json'
-train_loader, val_loader = get_data_loaders(annotations_file)
+train_loader, val_loader = get_data_loaders(annotations_file, num_images=10)

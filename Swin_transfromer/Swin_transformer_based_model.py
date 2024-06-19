@@ -38,6 +38,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.ops import roi_align, nms
 import torchvision.ops as ops
+from torchsummary import summary
 
 
 class RelativePositionEncoding(nn.Module):
@@ -350,3 +351,5 @@ model = SwinTransformerObjectDetection(backbone, rpn)
 # Dummy input for testing
 dummy_input = torch.randn(2, 3, 512, 512)
 model(dummy_input)
+
+#summary(model, (3, 512, 512))

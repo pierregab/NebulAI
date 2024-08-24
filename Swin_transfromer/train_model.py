@@ -137,19 +137,28 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
             imgs, bboxes, labels = imgs.to(device), bboxes.to(device), labels.to(device)
             cls_logits, bbox_regression, _ = model(imgs)
 
-            preds = (torch.sigmoid(cls_logits)[:, 1] > threshold).long()
+            # Assuming cls_logits shape is (batch_size, num_proposals, num_classes)
+            # and we're interested in the positive class (index 1)
+            scores = torch.sigmoid(cls_logits[:, :, 1])  # Shape: (batch_size, num_proposals)
+            
+            # Get the maximum score for each image in the batch
+            max_scores, _ = scores.max(dim=1)  # Shape: (batch_size,)
+            
+            # Predict positive if the max score is above the threshold
+            batch_preds = (max_scores > threshold).long()
+
             all_labels.extend(labels.cpu().numpy())
-            all_preds.extend(preds.cpu().numpy())
+            all_preds.extend(batch_preds.cpu().numpy())
 
             if i == 0:
                 img_grid = torchvision.utils.make_grid(imgs)
                 writer.add_image('Validation Images', img_grid, epoch)
 
                 if bbox_regression.numel() > 0:  # Check if bbox_regression is not empty
-                    visualize_detections(imgs[0], bbox_regression[0].view(-1, 4).cpu(), cls_logits, threshold)
+                    visualize_detections(imgs[0], bbox_regression[0], cls_logits[0], threshold)
 
-    precision = precision_score(all_labels, all_preds)
-    recall = recall_score(all_labels, all_preds)
+    precision = precision_score(all_labels, all_preds, average='binary')
+    recall = recall_score(all_labels, all_preds, average='binary')
 
     print(f"Validation Precision: {precision}, Recall: {recall}")
 

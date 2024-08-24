@@ -50,10 +50,13 @@ def visualize_detections(image, boxes, cls_logits, threshold=0.5):
     ax.imshow(image)
 
     for i in range(len(boxes)):
-        score = torch.sigmoid(cls_logits[i])[1]
+        if cls_logits.numel() == 0:
+            print(f"No logits found for box index {i}. Skipping...")
+            continue
+        
+        score = torch.sigmoid(cls_logits[i])[1] if cls_logits.shape[1] > 1 else torch.sigmoid(cls_logits[i])
         if score > threshold:
             box = boxes[i]
-
             rect = patches.Rectangle(
                 (box[0], box[1]), box[2] - box[0], box[3] - box[1], linewidth=2, edgecolor='r', facecolor='none'
             )
@@ -96,10 +99,15 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
             optimizer.zero_grad()
             cls_logits, bbox_regression, _ = model(imgs)
 
+            if bbox_regression.numel() == 0 or cls_logits.numel() == 0:
+                print(f"No valid output from model in batch {i+1}. Skipping...")
+                continue
+
             proposals = bbox_regression.view(-1, 4)
             matched_proposals, matched_ground_truths = match_proposals_with_ground_truth(proposals, bboxes.view(-1, 4))
 
             if not matched_proposals:
+                print(f"No matched proposals for batch {i+1}. Skipping...")
                 continue
 
             matched_proposals = torch.stack(matched_proposals).to(device)
@@ -137,14 +145,13 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
             imgs, bboxes, labels = imgs.to(device), bboxes.to(device), labels.to(device)
             cls_logits, bbox_regression, _ = model(imgs)
 
-            # If cls_logits has shape [batch_size * num_proposals, num_classes] 
-            # Here batch_size*num_proposals=62 and num_classes=2
+            if cls_logits.numel() == 0:
+                print(f"No logits produced for batch {i+1}. Skipping...")
+                continue
 
-            # Assuming you want the scores for the second class (index 1)
-            scores = torch.sigmoid(cls_logits[:, 1])  # Shape: (62,)
+            scores = torch.sigmoid(cls_logits[:, 1]) if cls_logits.shape[1] > 1 else torch.sigmoid(cls_logits)  # Handle both binary and multi-class cases
 
-            # Predict positive if the score is above the threshold
-            batch_preds = (scores > threshold).long()  # Shape: (62,)
+            batch_preds = (scores > threshold).long()
 
             all_labels.extend(labels.cpu().numpy())
             all_preds.extend(batch_preds.cpu().numpy())

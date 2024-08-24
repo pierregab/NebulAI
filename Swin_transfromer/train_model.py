@@ -137,15 +137,14 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
             imgs, bboxes, labels = imgs.to(device), bboxes.to(device), labels.to(device)
             cls_logits, bbox_regression, _ = model(imgs)
 
-            # Assuming cls_logits shape is (batch_size, num_proposals, num_classes)
-            # and we're interested in the positive class (index 1)
-            scores = torch.sigmoid(cls_logits[:, :, 1])  # Shape: (batch_size, num_proposals)
-            
-            # Get the maximum score for each image in the batch
-            max_scores, _ = scores.max(dim=1)  # Shape: (batch_size,)
-            
-            # Predict positive if the max score is above the threshold
-            batch_preds = (max_scores > threshold).long()
+            # If cls_logits has shape [batch_size * num_proposals, num_classes] 
+            # Here batch_size*num_proposals=62 and num_classes=2
+
+            # Assuming you want the scores for the second class (index 1)
+            scores = torch.sigmoid(cls_logits[:, 1])  # Shape: (62,)
+
+            # Predict positive if the score is above the threshold
+            batch_preds = (scores > threshold).long()  # Shape: (62,)
 
             all_labels.extend(labels.cpu().numpy())
             all_preds.extend(batch_preds.cpu().numpy())

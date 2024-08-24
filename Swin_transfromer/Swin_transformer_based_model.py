@@ -42,20 +42,6 @@ from torchsummary import summary
 
 
 class RelativePositionEncoding(nn.Module):
-    """
-    Adds relative position encoding to the input tensor. This helps the model to capture positional information, 
-    which is crucial for understanding spatial relationships in the input data.
-
-    Args:
-        d_model (int): Dimension of the model.
-        max_len (int, optional): Maximum length of the sequence. Default is 512.
-
-    Inputs:
-        x (Tensor): Input tensor of shape (batch_size, seq_len, d_model).
-
-    Outputs:
-        Tensor: Output tensor with added position encoding of shape (batch_size, seq_len, d_model).
-    """
     def __init__(self, d_model, max_len=512):
         super(RelativePositionEncoding, self).__init__()
         self.encoding = nn.Parameter(torch.randn(max_len, d_model))
@@ -67,22 +53,6 @@ class RelativePositionEncoding(nn.Module):
 
 
 class SwinTransformerBlock(nn.Module):
-    """
-    A single block of the Swin Transformer, including multi-head self-attention with optional shifting for windows.
-
-    Args:
-        dim (int): Number of input dimensions.
-        num_heads (int): Number of attention heads.
-        window_size (int): Size of the attention window.
-        shift_size (int, optional): Shift size for the attention window. Default is 0.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Inputs:
-        x (Tensor): Input tensor of shape (batch_size, seq_len, dim).
-
-    Outputs:
-        Tensor: Output tensor of shape (batch_size, seq_len, dim).
-    """
     def __init__(self, dim, num_heads, window_size, shift_size=0, debug=False):
         super(SwinTransformerBlock, self).__init__()
         self.dim = dim
@@ -143,21 +113,6 @@ class SwinTransformerBlock(nn.Module):
 
 
 class ConsecutiveSwinTransformerBlocks(nn.Module):
-    """
-    A module containing two consecutive Swin Transformer blocks with alternating shift sizes.
-
-    Args:
-        dim (int): Number of input dimensions.
-        num_heads (int): Number of attention heads.
-        window_size (int): Size of the attention window.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Inputs:
-        x (Tensor): Input tensor of shape (batch_size, seq_len, dim).
-
-    Outputs:
-        Tensor: Output tensor after two transformer blocks of shape (batch_size, seq_len, dim).
-    """
     def __init__(self, dim, num_heads, window_size, debug=False):
         super(ConsecutiveSwinTransformerBlocks, self).__init__()
         self.block1 = SwinTransformerBlock(dim, num_heads, window_size, shift_size=0, debug=debug)
@@ -170,21 +125,6 @@ class ConsecutiveSwinTransformerBlocks(nn.Module):
 
 
 class PatchPartition(nn.Module):
-    """
-    Divides an image into non-overlapping patches and embeds them into a higher-dimensional space.
-
-    Args:
-        patch_size (int, optional): Size of each patch. Default is 4.
-        in_chans (int, optional): Number of input channels. Default is 3.
-        embed_dim (int, optional): Embedding dimension for each patch. Default is 96.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Inputs:
-        x (Tensor): Input image tensor of shape (batch_size, in_chans, height, width).
-
-    Outputs:
-        Tensor: Flattened and embedded patch tensor of shape (batch_size, num_patches, embed_dim).
-    """
     def __init__(self, patch_size=4, in_chans=3, embed_dim=96, debug=False):
         super(PatchPartition, self).__init__()
         self.patch_size = patch_size
@@ -206,21 +146,6 @@ class PatchPartition(nn.Module):
 
 
 class PatchMerging(nn.Module):
-    """
-    Merges patches to reduce the spatial dimension and increase the channel dimension.
-
-    Args:
-        dim (int): Dimension of the input patches.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Inputs:
-        x (Tensor): Input tensor of shape (batch_size, num_patches, dim).
-        H (int): Height of the patch grid.
-        W (int): Width of the patch grid.
-
-    Outputs:
-        Tensor: Merged patch tensor of shape (batch_size, new_num_patches, 2 * dim).
-    """
     def __init__(self, dim, debug=False):
         super(PatchMerging, self).__init__()
         self.reduction = nn.Linear(4 * dim, 2 * dim, bias=False)
@@ -247,26 +172,6 @@ class PatchMerging(nn.Module):
 
 
 class SwinTransformerBackbone(nn.Module):
-    """
-    The Swin Transformer backbone network that consists of patch partitioning, several stages of 
-    Swin Transformer blocks, and patch merging layers.
-
-    Args:
-        img_size (int, optional): Size of the input image. Default is 512.
-        patch_size (int, optional): Size of each patch. Default is 4.
-        in_chans (int, optional): Number of input channels. Default is 3.
-        embed_dim (int, optional): Embedding dimension for each patch. Default is 96.
-        depths (list, optional): Number of Swin Transformer blocks at each stage. Default is [2, 2, 6, 2].
-        num_heads (list, optional): Number of attention heads at each stage. Default is [3, 6, 12, 24].
-        window_size (int, optional): Size of the attention window. Default is 7.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Inputs:
-        x (Tensor): Input image tensor of shape (batch_size, in_chans, height, width).
-
-    Outputs:
-        list: List of feature pyramid tensors from each stage.
-    """
     def __init__(self, img_size=512, patch_size=4, in_chans=3, embed_dim=96, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24], window_size=7, debug=False):
         super(SwinTransformerBackbone, self).__init__()
         self.patch_partition = PatchPartition(patch_size, in_chans, embed_dim, debug=debug)
@@ -306,23 +211,6 @@ class SwinTransformerBackbone(nn.Module):
 
 
 class RPN(nn.Module):
-    """
-    Region Proposal Network (RPN) for generating object proposals.
-
-    Args:
-        in_channels (int): Number of input channels.
-        mid_channels (int, optional): Number of intermediate channels. Default is 256.
-        n_anchors (int, optional): Number of anchor boxes. Default is 9.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Inputs:
-        x (Tensor): Input feature map of shape (batch_size, in_channels, height, width).
-
-    Outputs:
-        Tuple[Tensor, Tensor]: 
-            logits: Classification scores for each anchor box of shape (batch_size, n_anchors, height, width).
-            bbox_pred: Bounding box regression predictions of shape (batch_size, n_anchors * 4, height, width).
-    """
     def __init__(self, in_channels, mid_channels=256, n_anchors=9, debug=False):
         super(RPN, self).__init__()
         self.conv = nn.Conv2d(in_channels, mid_channels, kernel_size=3, stride=1, padding=1)
@@ -343,17 +231,6 @@ class RPN(nn.Module):
 
 
 def generate_anchors(base_size=16, ratios=[0.5, 1, 2], scales=[8, 16, 32]):
-    """
-    Generates anchor boxes based on base size, aspect ratios, and scales.
-
-    Args:
-        base_size (int, optional): Base size of the anchor boxes. Default is 16.
-        ratios (list, optional): Aspect ratios for the anchor boxes. Default is [0.5, 1, 2].
-        scales (list, optional): Scales for the anchor boxes. Default is [8, 16, 32].
-
-    Returns:
-        Tensor: Generated anchor boxes of shape (num_anchors, 4).
-    """
     anchors = []
     for scale in scales:
         for ratio in ratios:
@@ -364,17 +241,6 @@ def generate_anchors(base_size=16, ratios=[0.5, 1, 2], scales=[8, 16, 32]):
 
 
 def generate_anchor_boxes(feature_map_size, base_size=16, n_anchors=9):
-    """
-    Generates anchor boxes for the entire feature map based on the specified size.
-
-    Args:
-        feature_map_size (tuple): Size of the feature map (height, width).
-        base_size (int, optional): Base size of the anchor boxes. Default is 16.
-        n_anchors (int, optional): Number of anchor boxes per location. Default is 9.
-
-    Returns:
-        Tensor: Generated anchor boxes for the entire feature map of shape (total_anchors, 4).
-    """
     anchors = generate_anchors(base_size)
     grid_x = torch.arange(feature_map_size[1]) * base_size
     grid_y = torch.arange(feature_map_size[0]) * base_size
@@ -388,23 +254,6 @@ def generate_anchor_boxes(feature_map_size, base_size=16, n_anchors=9):
 
 
 def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, batch_size, nms_thresh=0.7, pre_nms_top_n=6000, post_nms_top_n=300, debug=False):
-    """
-    Generates proposals from the RPN logits and bounding box predictions.
-
-    Args:
-        rpn_logits (Tensor): RPN classification logits of shape (batch_size, n_anchors, height, width).
-        rpn_bbox_pred (Tensor): RPN bounding box regression predictions of shape (batch_size, n_anchors * 4, height, width).
-        anchor_boxes (Tensor): Anchor boxes of shape (total_anchors, 4).
-        image_size (tuple): Size of the input image (height, width).
-        batch_size (int): Batch size.
-        nms_thresh (float, optional): Non-Maximum Suppression threshold. Default is 0.7.
-        pre_nms_top_n (int, optional): Number of top proposals before NMS. Default is 6000.
-        post_nms_top_n (int, optional): Number of top proposals after NMS. Default is 300.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Returns:
-        Tensor: Generated proposals of shape (num_proposals, 5), where the first column is the batch index.
-    """
     device = rpn_logits.device
 
     if debug:
@@ -444,24 +293,6 @@ def generate_proposals(rpn_logits, rpn_bbox_pred, anchor_boxes, image_size, batc
 
 
 class SwinTransformerObjectDetection(nn.Module):
-    """
-    Swin Transformer-based object detection model including a backbone, RPN, and heads for classification and regression.
-
-    Args:
-        backbone (nn.Module): Backbone network (Swin Transformer).
-        rpn (nn.Module): Region Proposal Network.
-        num_classes (int, optional): Number of object classes. Default is 2.
-        debug (bool, optional): If True, prints debug information. Default is False.
-
-    Inputs:
-        x (Tensor): Input image tensor of shape (batch_size, in_chans, height, width).
-
-    Outputs:
-        Tuple[Tensor, Tensor, Tensor]: 
-            cls_logits: Classification logits of shape (num_proposals, num_classes).
-            bbox_regression: Bounding box regression predictions of shape (num_proposals, num_classes * 4).
-            mask_pred: Mask predictions of shape (num_proposals, 1, height, width).
-    """
     def __init__(self, backbone, rpn, num_classes=2, debug=False):
         super(SwinTransformerObjectDetection, self).__init__()
         self.backbone = backbone

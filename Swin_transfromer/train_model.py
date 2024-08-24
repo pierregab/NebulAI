@@ -166,11 +166,11 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
 
 if __name__ == "__main__":
     annotations_file = 'annotations.json'
-    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1, num_images=4)
+    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1, num_images=10)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
-    backbone = SwinTransformerBackbone()
+    backbone = SwinTransformerBackbone(img_size=256)
     rpn_in_channels = backbone.layers[-1][0].block1.dim
     rpn = RPN(in_channels=rpn_in_channels)
     

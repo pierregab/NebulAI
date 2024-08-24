@@ -70,7 +70,7 @@ def draw_bbox(img, bbox):
     draw.rectangle(bbox, outline='red', width=2)
     return img
 
-def download_and_crop_image(run, ccd, ra, dec, size_deg, annotations, debug=False):
+def download_and_crop_image(run, ccd, ra, dec, size_deg, annotations, output_image_size=512, debug=False):
     url = f"http://www.iphas.org/data/images/r{str(run)[:3]}/r{run}-{ccd}.fits.fz"
     try:
         response = requests.get(url)
@@ -94,13 +94,13 @@ def download_and_crop_image(run, ccd, ra, dec, size_deg, annotations, debug=Fals
                     original_x, original_y = original_position_pixel
 
                     # Apply random shift to the position
-                    nebula_size_pixels = int(size_deg / pixel_scale * 512 / crop_size_pixels)
-                    max_shift = (512 - nebula_size_pixels) // 2
+                    nebula_size_pixels = int(size_deg / pixel_scale * output_image_size / crop_size_pixels)
+                    max_shift = (output_image_size - nebula_size_pixels) // 2
                     shift_x = random.randint(-max_shift, max_shift)
                     shift_y = random.randint(-max_shift, max_shift)
 
-                    shifted_x = original_x + shift_x / (512 / crop_size_pixels)
-                    shifted_y = original_y + shift_y / (512 / crop_size_pixels)
+                    shifted_x = original_x + shift_x / (output_image_size / crop_size_pixels)
+                    shifted_y = original_y + shift_y / (output_image_size / crop_size_pixels)
 
                     shifted_position = wcs.pixel_to_world(shifted_x, shifted_y)
 
@@ -112,19 +112,19 @@ def download_and_crop_image(run, ccd, ra, dec, size_deg, annotations, debug=Fals
                     vmin, vmax = interval.get_limits(cutout.data)
                     img_data = np.clip((cutout.data - vmin) / (vmax - vmin) * 255.0, 0, 255).astype(np.uint8)
                     img = Image.fromarray(img_data).convert("RGB")
-                    img = img.resize((512, 512), Image.LANCZOS)  # Resize to 512x512
+                    img = img.resize((output_image_size, output_image_size), Image.LANCZOS)  # Resize to specified output size
 
                     # Bounding box coordinates
                     half_size = nebula_size_pixels // 2
-                    center_x = 512 // 2 - shift_x
-                    center_y = 512 // 2 - shift_y
+                    center_x = output_image_size // 2 - shift_x
+                    center_y = output_image_size // 2 - shift_y
                     bbox = [center_x - half_size, center_y - half_size, center_x + half_size, center_y + half_size]
 
                     if debug:
                         print(f"Drawing bounding box for {run}-{ccd} with shift ({shift_x}, {shift_y})")
                         img = draw_bbox(img, bbox)
 
-                    png_file_path = os.path.join(output_dir, f'{run}-{ccd}_shifted_512x512.png')
+                    png_file_path = os.path.join(output_dir, f'{run}-{ccd}_shifted_{output_image_size}x{output_image_size}.png')
                     img.save(png_file_path)
                     print(f"Image saved to {png_file_path}")
 
@@ -144,7 +144,7 @@ def download_and_crop_image(run, ccd, ra, dec, size_deg, annotations, debug=Fals
     except Exception as e:
         print(f"Error downloading or processing image {url}: {e}")
 
-def list_iphas_images_for_pn(pn_data, conn, debug=False):
+def list_iphas_images_for_pn(pn_data, conn, output_image_size=512, debug=False):
     all_results = []
     annotations = []
 
@@ -170,7 +170,7 @@ def list_iphas_images_for_pn(pn_data, conn, debug=False):
                 all_results.append(image_data)
 
                 for _, img_row in image_data.iterrows():
-                    download_and_crop_image(img_row['run'], img_row['ccd'], ra, dec, size_deg, annotations, debug)
+                    download_and_crop_image(img_row['run'], img_row['ccd'], ra, dec, size_deg, annotations, output_image_size, debug)
 
     if all_results:
         all_results_df = pd.concat(all_results, ignore_index=True)
@@ -195,8 +195,9 @@ def main():
 
     print(f"Queried {len(pn_data)} planetary nebulae from the input CSV.")
     
+    output_image_size = 256  # You can change this value to any desired output size
     debug = False  # Set to True to enable debugging output with bounding boxes
-    list_iphas_images_for_pn(pn_data, conn, debug)
+    list_iphas_images_for_pn(pn_data, conn, output_image_size, debug)
 
     conn.close()
     print("Process completed.")

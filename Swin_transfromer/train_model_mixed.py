@@ -82,7 +82,8 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
     criterion_cls = nn.CrossEntropyLoss()
     criterion_bbox = nn.SmoothL1Loss()
     
-    scaler = GradScaler()
+    use_amp = device.type == 'cuda'
+    scaler = GradScaler(enabled=use_amp)
     writer = SummaryWriter(log_dir=log_dir)
     
     for epoch in range(num_epochs):
@@ -92,25 +93,18 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
         print(f"Starting epoch {epoch+1}/{num_epochs}")
 
         for i, (imgs, bboxes, labels) in enumerate(train_loader):
-            print(f"Processing batch {i+1}/{len(train_loader)}")
-            imgs, bboxes, labels = imgs.to(device), bboxes.to(device), labels.to(device)
+            imgs = imgs.to(device)
+            targets = {
+                'boxes': bboxes.to(device),
+                'labels': labels.to(device)
+            }
 
             optimizer.zero_grad()
 
-            with autocast():
-                cls_logits, bbox_regression, _ = model(imgs)
-
-                proposals = bbox_regression.view(-1, 4)
-                matched_proposals, matched_ground_truths = match_proposals_with_ground_truth(proposals, bboxes.view(-1, 4))
-
-                if not matched_proposals:
-                    continue
-
-                matched_proposals = torch.stack(matched_proposals).to(device)
-                matched_ground_truths = torch.stack(matched_ground_truths).to(device)
-
-                loss_cls = criterion_cls(cls_logits, labels)
-                loss_bbox = criterion_bbox(matched_proposals, matched_ground_truths)
+            with autocast(enabled=use_amp):
+                cls_logits, bbox_regression, proposals = model(imgs)
+                loss_cls = criterion_cls(cls_logits, targets['labels'])
+                loss_bbox = criterion_bbox(bbox_regression, targets['boxes'])
                 loss = loss_cls + loss_bbox
 
             scaler.scale(loss).backward()
@@ -120,14 +114,11 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
             running_loss += loss.item()
 
             writer.add_scalar('Loss/Total', running_loss/(i+1), epoch*len(train_loader)+i)
-            writer.add_scalar('Loss/Classification', loss_cls.item(), epoch*len(train_loader)+i)
-            writer.add_scalar('Loss/Regression', loss_bbox.item(), epoch*len(train_loader)+i)
+
         
         print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {running_loss/len(train_loader)}")
 
-        precision, recall = validate(model, val_loader, device, writer, epoch)
-        writer.add_scalar('Precision', precision, epoch)
-        writer.add_scalar('Recall', recall, epoch)
+        # Validation step can be added here
 
     writer.close()
 
@@ -172,15 +163,20 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
 
 if __name__ == "__main__":
     annotations_file = 'annotations.json'
-    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1, num_images=4)
-
+    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=4, num_images=100)
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
-    backbone = SwinTransformerBackbone()
+    # Example of setting a different input size, e.g., 224x224
+    backbone = SwinTransformerBackbone(img_size=256)
+
+    # Create RPN using the correct input channels
     rpn_in_channels = backbone.layers[-1][0].block1.dim
     rpn = RPN(in_channels=rpn_in_channels)
-    
+
+    # Instantiate the model with the updated backbone
     model = SwinTransformerObjectDetection(backbone, rpn)
+
     
     print("Starting training process")
     train(model, train_loader, val_loader, device, num_epochs=10)

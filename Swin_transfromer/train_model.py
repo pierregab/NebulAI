@@ -182,7 +182,7 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
 
 if __name__ == "__main__":
     annotations_file = 'annotations.json'
-    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=8, num_images=10)
+    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1, num_images=100)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 

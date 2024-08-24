@@ -75,9 +75,6 @@ def visualize_detections(image, boxes, cls_logits, threshold=0.5):
     plt.axis('off')
     plt.show()
 
-
-
-
 def start_tensorboard(log_dir): 
     try:
         os.makedirs(log_dir, exist_ok=True)
@@ -91,7 +88,7 @@ def start_tensorboard(log_dir):
     except Exception as e:
         print(f"Failed to start TensorBoard: {e}")
 
-def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_dir="runs/debug"):
+def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_dir="runs/debug", do_validation=True):
     model = model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=lr)
     criterion_cls = nn.CrossEntropyLoss()
@@ -141,9 +138,10 @@ def train(model, train_loader, val_loader, device, num_epochs=10, lr=0.001, log_
         
         print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {running_loss/len(train_loader)}")
 
-        precision, recall = validate(model, val_loader, device, writer, epoch)
-        writer.add_scalar('Precision', precision, epoch)
-        writer.add_scalar('Recall', recall, epoch)
+        if do_validation:
+            precision, recall = validate(model, val_loader, device, writer, epoch)
+            writer.add_scalar('Precision', precision, epoch)
+            writer.add_scalar('Recall', recall, epoch)
 
     writer.close()
 
@@ -185,7 +183,7 @@ def validate(model, val_loader, device, writer, epoch, threshold=0.5):
 
 if __name__ == "__main__":
     annotations_file = 'annotations.json'
-    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=1, num_images=10)
+    train_loader, val_loader = get_data_loaders(annotations_file, batch_size=8, num_images=100)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "mps")
 
@@ -196,5 +194,5 @@ if __name__ == "__main__":
     model = SwinTransformerObjectDetection(backbone, rpn)
     
     print("Starting training process")
-    train(model, train_loader, val_loader, device, num_epochs=10)
+    train(model, train_loader, val_loader, device, num_epochs=10, do_validation=False)
     print("Training process finished")

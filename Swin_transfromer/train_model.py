@@ -54,7 +54,12 @@ def visualize_detections(image, boxes, cls_logits, threshold=0.5):
             print(f"No logits found for box index {i}. Skipping...")
             continue
         
-        score = torch.sigmoid(cls_logits[i])[1] if cls_logits.shape[1] > 1 else torch.sigmoid(cls_logits[i])
+        # Check if cls_logits has more than one dimension and access accordingly
+        if cls_logits.dim() > 1 and cls_logits.shape[1] > 1:
+            score = torch.sigmoid(cls_logits[i])[1]  # Access the second class score
+        else:
+            score = torch.sigmoid(cls_logits[i])  # Handle single class or scalar case
+
         if score > threshold:
             box = boxes[i]
             rect = patches.Rectangle(
@@ -64,6 +69,7 @@ def visualize_detections(image, boxes, cls_logits, threshold=0.5):
 
     plt.axis('off')
     plt.show()
+
 
 def start_tensorboard(log_dir): 
     try:
